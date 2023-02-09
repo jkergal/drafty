@@ -1,0 +1,8 @@
+{
+  "name": "drafty",
+  "version": "1.0.0",
+  "description": "A discord bot that helps to organize Magic The Gathering draft pods",
+  "main": "app.js",
+  "author": "Johann Kergal",
+  "license": "ISC"
+}
