@@ -5,6 +5,9 @@
   "main": "index.js",
   "author": "Johann Kergal",
   "license": "ISC",
+  "scripts": {
+    "start": "ts-node src/index.ts"
+  },
   "dependencies": {
     "discord.js": "^14.7.1"
   },
