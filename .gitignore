@@ -1,0 +1,6 @@
+$VARIOUS
+.env
+node_modules
+testing.js
+serviceAccountKey.json
+/dist
