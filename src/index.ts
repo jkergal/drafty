@@ -1,5 +1,6 @@
 import { Client, ClientOptions } from 'discord.js';
 import * as dotenv from 'dotenv';
+import { startCronMessage } from './cron/startCronMessage';
 import interactionCreate from './listeners/interactionCreate';
 import ready from './listeners/ready';
 
@@ -16,5 +17,6 @@ const client = new Client({
 client.login(token);
 ready(client);
 interactionCreate(client);
+startCronMessage();
 
 console.log(client);
