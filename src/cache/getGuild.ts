@@ -1,5 +1,10 @@
 import { Client } from 'discord.js';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 export const getGuild = (client: Client) => {
-  return client.guilds.cache.get('668478387123388426'); // Change your Discord server ID here
+  const GUILD_ID = process.env.GUILD_ID;
+
+  return client.guilds.cache.get(GUILD_ID);
 };
