@@ -1,11 +1,26 @@
-import { Client } from 'discord.js';
+import {
+  CHECKIN_ASYNC_CHANNEL,
+  CHECKIN_CHANNEL_1,
+  CHECKIN_CHANNEL_2,
+  ENROLLMENTS_CHANNEL,
+  TUTORIAL_CHANNEL,
+} from '@/constants/DISCORD_SERVER';
+import { Channel, Client, TextChannel } from 'discord.js';
 
-export const getChannels = (client: Client) => {
-  const channelEntries = client.channels.cache.get('684235805757145117'); // Change the channel ID for draft entries here
-  const channelCheckIn1 = client.channels.cache.get('725725364726530159'); // Change the channel ID for pod 1 check-in here
-  const channelCheckIn2 = client.channels.cache.get('725726906728710206'); // Change the channel ID for pod 2 check-in here
-  const channelCheckInAsync = client.channels.cache.get('783154310653280256'); // Change the channel ID for asynchron pod check-in here
-  const channelFonctionnement = client.channels.cache.get('769288446610636830'); // Change the channel ID of the channel you want to tag in your entries message
+interface Channels {
+  enrollmentsChannel: TextChannel | undefined;
+  checkinChannel1: TextChannel | undefined;
+  checkinChannel2: TextChannel | undefined;
+  checkinAsyncChannel: TextChannel | undefined;
+  tutorialChannel: TextChannel | undefined;
+}
 
-  return { channelEntries, channelCheckIn1, channelCheckIn2, channelCheckInAsync, channelFonctionnement };
+export const getChannels = (client: Client): Channels => {
+  const enrollmentsChannel = client.channels.cache.get(ENROLLMENTS_CHANNEL as string) as TextChannel;
+  const checkinChannel1 = client.channels.cache.get(CHECKIN_CHANNEL_1 as string) as TextChannel;
+  const checkinChannel2 = client.channels.cache.get(CHECKIN_CHANNEL_2 as string) as TextChannel;
+  const checkinAsyncChannel = client.channels.cache.get(CHECKIN_ASYNC_CHANNEL as string) as TextChannel;
+  const tutorialChannel = client.channels.cache.get(TUTORIAL_CHANNEL as string) as TextChannel;
+
+  return { enrollmentsChannel, checkinChannel1, checkinChannel2, checkinAsyncChannel, tutorialChannel };
 };

@@ -1,1 +1,1 @@
-export const CRON_MESSAGE = 'Voici un message planifié.';
+export const SCHEDULED_MESSAGE = 'Voici un message planifié.';

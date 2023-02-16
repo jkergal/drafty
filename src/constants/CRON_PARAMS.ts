@@ -1,4 +1,4 @@
-export const CRON = {
+export const CRON_PARAMS = {
   // You can use "*" to don't use a parameter
   SECOND: '00', // second 0-59
   MINUTE: '*', // minute 0-59
