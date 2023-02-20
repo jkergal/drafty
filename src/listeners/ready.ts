@@ -1,7 +1,5 @@
-import { Commands } from '../Commands';
 import { Client } from 'discord.js';
-import { startCronMessage } from '@/cron/startCronMessage';
-import { getChannels } from '@/cache/getChannels';
+import { Commands } from '../Commands';
 
 export default (client: Client, startCronjobs: () => void): void => {
   client.on('ready', async () => {
