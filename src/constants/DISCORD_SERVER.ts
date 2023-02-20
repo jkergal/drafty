@@ -13,6 +13,6 @@ export const TUESDAY_EMOJI = process.env.TUESDAY_EMOJI;
 export const WEDNESDAY_EMOJI = process.env.WEDNESDAY_EMOJI;
 export const THURSDAY_EMOJI = process.env.THURSDAY_EMOJI;
 export const FRIDAY_EMOJI = process.env.FRIDAY_EMOJI;
-export const SATURDAY_EMOJI = process.env.SAURDAY_EMOJI;
+export const SATURDAY_EMOJI = process.env.SATURDAY_EMOJI;
 export const SUNDAY_EMOJI = process.env.SUNDAY_EMOJI;
 export const ASYNC_EMOJI = ':alarm_clock:';
