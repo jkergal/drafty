@@ -1,7 +1,7 @@
 import { Guild } from 'discord.js';
 
 export const getEmojis = (guild: Guild) => {
-  const mondayEmoji = guild.emojis.cache.get('911345759650209804'); // Change here and below the emojis IDs considering your server's emojis
+  const mondayEmoji = guild.emojis.cache.get('911345759650209804');
   const tuesdayEmoji = guild.emojis.cache.get('911345759729881119');
   const wednesdayEmoji = guild.emojis.cache.get('911345759650209822');
   const thursdayEmoji = guild.emojis.cache.get('911345759767642173');

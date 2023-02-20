@@ -9,7 +9,7 @@ export default (client: Client, startCronjobs: () => void): void => {
       return;
     }
 
-    console.log(`${client.user.username} is online`);
+    console.info(`${client.user.username} is online`);
 
     await client.application.commands.set(Commands);
     startCronjobs();
