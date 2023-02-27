@@ -4,5 +4,3 @@ node_modules
 testing.js
 serviceAccountKey.json
 /dist
-
-**/!**.ts
