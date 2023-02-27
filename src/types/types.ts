@@ -1,26 +1,4 @@
-import {
-  ChatInputApplicationCommandData,
-  Client,
-  CommandInteraction,
-  Guild,
-  GuildEmoji,
-  TextChannel,
-} from 'discord.js';
-
-export interface DiscordApi {
-  getChannel: () => Channels;
-  getGuild: () => Guild | undefined;
-  getEmojis: () => {
-    monday: undefined;
-    tuesday: GuildEmoji | undefined;
-    wednesday: GuildEmoji | undefined;
-    thursday: GuildEmoji | undefined;
-    friday: GuildEmoji | undefined;
-    saturday: GuildEmoji | undefined;
-    sunday: GuildEmoji | undefined;
-    async: string;
-  };
-}
+import { ChatInputApplicationCommandData, Client, CommandInteraction, TextChannel } from 'discord.js';
 
 export interface Command extends ChatInputApplicationCommandData {
   run: (client: Client, interaction: CommandInteraction) => void;
