@@ -1,6 +1,5 @@
 import { getChannels } from '@/cache/getChannels';
-import { SCHEDULED_MESSAGE } from '@/constants/DRAFTY';
-import { getCronParams } from '@/helpers/getCronParams';
+import { formatCronParams, formatDiscordScheduledMessage } from '@/helpers/format';
 import { CronJob } from 'cron';
 import { Client } from 'discord.js';
 
@@ -9,8 +8,10 @@ export const startCronMessage = async (client: Client) => {
 
   const { enrollmentsChannel } = getChannels(client);
 
-  let job = new CronJob(getCronParams(), async () => {
-    enrollmentsChannel?.send({ content: SCHEDULED_MESSAGE }).then(async (sentMessage) => {
+  const scheduledMessage = formatDiscordScheduledMessage(client);
+
+  let job = new CronJob(formatCronParams(), async () => {
+    enrollmentsChannel?.send({ content: scheduledMessage }).then(async (sentMessage) => {
       console.info('Message sent');
     });
   });

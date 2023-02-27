@@ -7,5 +7,12 @@ namespace NodeJS {
     CHECKIN_2_CHANNEL: string;
     CHECKIN_ASYNC_CHANNEL: string;
     TUTORIAL_CHANNEL: string;
+    MONDAY_EMOJI: string;
+    TUESDAY_EMOJI: string;
+    WEDNESDAY_EMOJI: string;
+    THURSDAY_EMOJI: string;
+    FRIDAY_EMOJI: string;
+    SATURDAY_EMOJI: string;
+    SUNDAY_EMOJI: string;
   }
 }

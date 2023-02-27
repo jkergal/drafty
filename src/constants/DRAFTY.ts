@@ -1,1 +1,1 @@
-export const SCHEDULED_MESSAGE = 'Voici un message planifié.';
+export const CURRENT_MTG_FORMAT = 'ONE';

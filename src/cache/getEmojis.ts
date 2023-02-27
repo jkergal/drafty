@@ -1,23 +1,33 @@
+import {
+  FRIDAY_EMOJI,
+  MONDAY_EMOJI,
+  SATURDAY_EMOJI,
+  SUNDAY_EMOJI,
+  THURSDAY_EMOJI,
+  TUESDAY_EMOJI,
+  WEDNESDAY_EMOJI,
+} from '@/constants/DISCORD_SERVER';
 import { Guild } from 'discord.js';
 
-export const getEmojis = (guild: Guild) => {
-  const mondayEmoji = guild.emojis.cache.get('911345759650209804');
-  const tuesdayEmoji = guild.emojis.cache.get('911345759729881119');
-  const wednesdayEmoji = guild.emojis.cache.get('911345759650209822');
-  const thursdayEmoji = guild.emojis.cache.get('911345759767642173');
-  const fridayEmoji = guild.emojis.cache.get('911345759650218054');
-  const saturdayEmoji = guild.emojis.cache.get('911345759344017479');
-  const sundayEmoji = guild.emojis.cache.get('911345759398555669');
-  const asyncEmoji = ':alarm_clock:';
+export const getEmojis = (guild: Guild | undefined) => {
+  // @WORKAROUND : env typing issues, had to use "as string" here, event it was already typed
+  const monday = guild?.emojis.cache.get(MONDAY_EMOJI as string);
+  const tuesday = guild?.emojis.cache.get(TUESDAY_EMOJI as string);
+  const wednesday = guild?.emojis.cache.get(WEDNESDAY_EMOJI as string);
+  const thursday = guild?.emojis.cache.get(THURSDAY_EMOJI as string);
+  const friday = guild?.emojis.cache.get(FRIDAY_EMOJI as string);
+  const saturday = guild?.emojis.cache.get(SATURDAY_EMOJI as string);
+  const sunday = guild?.emojis.cache.get(SUNDAY_EMOJI as string);
+  const async = ':alarm_clock:';
 
   return {
-    mondayEmoji,
-    tuesdayEmoji,
-    wednesdayEmoji,
-    thursdayEmoji,
-    fridayEmoji,
-    saturdayEmoji,
-    sundayEmoji,
-    asyncEmoji,
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday,
+    sunday,
+    async,
   };
 };
