@@ -5,15 +5,8 @@ import {
   ENROLLMENTS_CHANNEL,
   TUTORIAL_CHANNEL,
 } from '@/constants/DISCORD_SERVER';
-import { Channel, Client, TextChannel } from 'discord.js';
-
-interface Channels {
-  enrollmentsChannel: TextChannel | undefined;
-  checkinChannel1: TextChannel | undefined;
-  checkinChannel2: TextChannel | undefined;
-  checkinAsyncChannel: TextChannel | undefined;
-  tutorialChannel: TextChannel | undefined;
-}
+import { Channels } from '@/types/types';
+import { Client, TextChannel } from 'discord.js';
 
 export const getChannels = (client: Client): Channels => {
   const enrollmentsChannel = client.channels.cache.get(ENROLLMENTS_CHANNEL as string) as TextChannel;

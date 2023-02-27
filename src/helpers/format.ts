@@ -4,7 +4,7 @@ import { CRON_PARAMS } from '@/constants/CRON_PARAMS';
 import { ASYNC_EMOJI } from '@/constants/DISCORD_SERVER';
 import { CURRENT_MTG_FORMAT } from '@/constants/DRAFTY';
 import { Client } from 'discord.js';
-import { getDayONextfWeekTimestamp } from './dates';
+import { getDayONextfWeekTimestamp } from '@/helpers/dates';
 
 export const formatCronParams = () => {
   return `${CRON_PARAMS.SECOND} ${CRON_PARAMS.MINUTE} ${CRON_PARAMS.HOUR} ${CRON_PARAMS.DAY_OF_MONTH} ${CRON_PARAMS.MONTH} ${CRON_PARAMS.DAY_OF_WEEK}`;
@@ -44,7 +44,7 @@ export const formatDiscordScheduledMessage = (client: Client) => {
     )} (20h30) - Draft ${CURRENT_MTG_FORMAT} \n` +
     `${getEmojis(getGuild(client)).saturday} : Samedi ${formatDiscordTimestamp(
       getDayONextfWeekTimestamp(6),
-    )} + " (20h30) - Draft ${CURRENT_MTG_FORMAT} \n` +
+    )} (20h30) - Draft ${CURRENT_MTG_FORMAT} \n` +
     `${getEmojis(getGuild(client)).sunday} : Dimanche ${formatDiscordTimestamp(
       getDayONextfWeekTimestamp(7),
     )} (20h) - Draft ${CURRENT_MTG_FORMAT} \n` +
