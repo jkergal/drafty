@@ -10,7 +10,7 @@ export const startEnrollmentMessage = async (client: Client) => {
 
   const scheduledMessage = formatEnrollmentMessage(client);
 
-  let job = new CronJob(formatCronParams(CRON_PARAMS), async () => {
+  let job = new CronJob(formatCronParams(CRON_PARAMS.ENROLLMENT_MESSAGE), async () => {
     console.info('Cron message job started.');
 
     enrollmentsChannel?.send({ content: scheduledMessage }).then(async (sentMessage) => {
