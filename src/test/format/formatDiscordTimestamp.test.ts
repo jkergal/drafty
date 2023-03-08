@@ -1,4 +1,4 @@
-import { formatDiscordTimestamp } from '../helpers/format';
+import { formatDiscordTimestamp } from '../../helpers/format/formatDiscordTimestamp';
 
 describe('formatDiscordTimestamp', () => {
   it('should return a string with the correct format for the given UNIX timestamp', () => {

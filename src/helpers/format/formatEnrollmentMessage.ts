@@ -2,11 +2,11 @@ import { getEmojis } from '@/cache/getEmojis';
 import { getGuild } from '@/cache/getGuild';
 import { CURRENT_MTG_FORMAT } from '@/constants/DRAFTY';
 import { ASYNC_EMOJI } from '@/constants/EMOJIS';
-import { getDayONextfWeekTimestamp } from '@/helpers/dates';
-import { formatDiscordTimestamp } from '@/helpers/format';
+import { getDayONextfWeekTimestamp } from '@/helpers/dates/getDayONextfWeekTimestamp';
 import { Client } from 'discord.js';
+import { formatDiscordTimestamp } from './formatDiscordTimestamp';
 
-export const getScheduledMessage = (client: Client) => {
+export const formatEnrollmentMessage = (client: Client) => {
   const scheduledMessage =
     `**- Ouverture des inscriptions pour la semaine du ${formatDiscordTimestamp(
       getDayONextfWeekTimestamp(1),

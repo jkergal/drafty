@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { getDayONextfWeekTimestamp } from '../helpers/dates';
+import { getDayONextfWeekTimestamp } from '../../helpers/dates/getDayONextfWeekTimestamp';
 
 describe('getDayONextfWeekTimestamp', () => {
   describe('When 1 is passed as argument', () => {

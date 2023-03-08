@@ -1,3 +1,5 @@
+// Documentation Cron: https://github.com/kelektiv/node-cron
+
 export const CRON_PARAMS = {
   // You can use "*" to don't use a parameter
   SECOND: '00', // second 0-59
@@ -7,5 +9,3 @@ export const CRON_PARAMS = {
   MONTH: '*', // month 0-11
   DAY_OF_WEEK: '*', // day of week 0-6
 };
-
-// Documentation: https://github.com/kelektiv/node-cron
