@@ -1,22 +1,12 @@
 import { getEmojis } from '@/cache/getEmojis';
 import { getGuild } from '@/cache/getGuild';
-import { CRON_PARAMS } from '@/constants/CRON_PARAMS';
-import { ASYNC_EMOJI } from '@/constants/DISCORD_SERVER';
 import { CURRENT_MTG_FORMAT } from '@/constants/DRAFTY';
+import { ASYNC_EMOJI } from '@/constants/EMOJIS';
+import { getDayONextfWeekTimestamp } from '@/helpers/dates/getDayONextfWeekTimestamp';
 import { Client } from 'discord.js';
-import { getDayONextfWeekTimestamp } from '@/helpers/dates';
+import { formatDiscordTimestamp } from './formatDiscordTimestamp';
 
-export const formatCronParams = () => {
-  return `${CRON_PARAMS.SECOND} ${CRON_PARAMS.MINUTE} ${CRON_PARAMS.HOUR} ${CRON_PARAMS.DAY_OF_MONTH} ${CRON_PARAMS.MONTH} ${CRON_PARAMS.DAY_OF_WEEK}`;
-};
-
-export const formatDiscordTimestamp = (unixTimestamp: number, options?: { shorten?: boolean }) => {
-  if (options?.shorten) return '<t:' + unixTimestamp + ':d>';
-
-  return '<t:' + unixTimestamp + ':D>';
-};
-
-export const formatDiscordScheduledMessage = (client: Client) => {
+export const formatEnrollmentMessage = (client: Client) => {
   const scheduledMessage =
     `**- Ouverture des inscriptions pour la semaine du ${formatDiscordTimestamp(
       getDayONextfWeekTimestamp(1),

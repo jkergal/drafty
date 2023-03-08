@@ -2,7 +2,7 @@ import interactionCreate from '@/listeners/interactionCreate';
 import ready from '@/listeners/ready';
 import { Client, IntentsBitField } from 'discord.js';
 import * as dotenv from 'dotenv';
-import { startCronMessage } from './cron/startCronMessage';
+import { startEnrollmentMessage } from './jobs/startEnrollmentMessage';
 
 dotenv.config();
 
@@ -20,6 +20,6 @@ const client = new Client({
 
 client.login(token);
 
-ready(client, () => startCronMessage(client));
+ready(client, () => startEnrollmentMessage(client));
 
 interactionCreate(client);
