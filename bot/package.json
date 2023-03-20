@@ -9,7 +9,8 @@
     "test:watch": "jest --config=jest.config.js --watchAll --runInBand",
     "start": "ts-node src/index.ts",
     "start:watch": "nodemon",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "build": "tsc"
   },
   "dependencies": {
     "cron": "^2.2.0",

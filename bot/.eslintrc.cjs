@@ -51,4 +51,5 @@ module.exports = {
       files: ['.test.ts', '.spec.ts'],
     },
   ],
+  ignorePatterns: ['**/*.test.ts', '**/*.spec.ts', 'dist'],
 };

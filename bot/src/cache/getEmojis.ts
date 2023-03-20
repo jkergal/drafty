@@ -1,7 +1,7 @@
 import { Guild } from 'discord.js';
 
 export const getEmojis = (guild: Guild | undefined) => {
-  // @WORKAROUND : env typing issues, had to use "as string" here, event it was already typed
+  // @WORKAROUND : env typing issues, had to use "as string" here, even it was already typed
   const monday = guild?.emojis.cache.get(process.env.MONDAY_EMOJI as string);
   const tuesday = guild?.emojis.cache.get(process.env.TUESDAY_EMOJI as string);
   const wednesday = guild?.emojis.cache.get(process.env.WEDNESDAY_EMOJI as string);

@@ -1,5 +1,5 @@
-namespace NodeJS {
-  interface ProcessEnv {
+export namespace NodeJS {
+  export interface ProcessEnv {
     NODE_ENV: string;
     GUILD_ID: string;
     ENROLLMENTS_CHANNEL: string;
