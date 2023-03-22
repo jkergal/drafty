@@ -5,10 +5,10 @@ export const Hello: Command = {
   name: 'hello',
   description: 'Returns a greeting',
   type: 1,
-  run: async (client: Client, interaction: CommandInteraction) => {
+  run: (client: Client, interaction: CommandInteraction) => {
     const content = 'Hello there!';
 
-    await interaction.followUp({
+    interaction.followUp({
       ephemeral: true,
       content,
     });

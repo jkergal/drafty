@@ -1,5 +1,6 @@
-namespace NodeJS {
-  interface ProcessEnv {
+/* eslint-disable @typescript-eslint/prefer-namespace-keyword */
+declare module NodeJS {
+  export interface ProcessEnv {
     NODE_ENV: string;
     GUILD_ID: string;
     ENROLLMENTS_CHANNEL: string;

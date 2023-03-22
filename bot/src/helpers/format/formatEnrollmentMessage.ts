@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+
 import { getEmojis } from '@/cache/getEmojis';
 import { getGuild } from '@/cache/getGuild';
 import { CURRENT_MTG_FORMAT } from '@/constants/DRAFTY';
