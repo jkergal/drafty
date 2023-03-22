@@ -1,6 +1,6 @@
 import { formatCronParams } from '../../helpers/format/formatCronParams';
 
-describe('forCronParams', () => {
+describe('formatCronParams', () => {
   it('should return a string with the correct formatted cron params', () => {
     const cronParams = {
       SECOND: '00',
