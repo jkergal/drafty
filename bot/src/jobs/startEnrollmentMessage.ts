@@ -1,6 +1,6 @@
 import { getChannels } from '@/cache/getChannels';
 import { CRON_PARAMS } from '@/constants/CRON_PARAMS';
-import { sendTextMessage } from '@/helpers/checkTextChannelType';
+import { sendTextMessage } from '@/helpers/sendTextMessage';
 import { formatCronParams } from '@/helpers/format/formatCronParams';
 import { formatEnrollmentMessage } from '@/helpers/format/formatEnrollmentMessage';
 import { CronJob } from 'cron';
