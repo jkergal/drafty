@@ -74,7 +74,10 @@ jobs:
       - name: Checkout Codebase
         uses: actions/checkout@v3
 
-      - name: Install dependencies globaly
+      - name: Install pnpm globally
+        run: npm install -g pnpm
+
+      - name: Install dependencies globally
         run: pnpm install
 
       - name: Install dependencies on bot
