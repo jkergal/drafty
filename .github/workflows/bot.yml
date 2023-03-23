@@ -46,3 +46,7 @@ jobs:
 
       - name: Run Prettier Formatting
         run: npx prettier --write .
+
+      - name: Run Build
+        run: pnpm build
+        working-directory: ./bot
