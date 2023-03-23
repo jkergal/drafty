@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "A discord bot that helps to organize Magic The Gathering draft pods",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "pnpm -r --include-workspace-root exec rm -rf node_modules && rm -rf $(pnpm store path)",
+    "prettier:fix": "prettier --write .",
+    "prettier": "prettier --check ."
   },
   "repository": {
     "type": "git",
