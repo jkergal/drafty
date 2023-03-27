@@ -6,7 +6,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "pnpm -r --include-workspace-root exec rm -rf node_modules && rm -rf $(pnpm store path)",
     "prettier:fix": "prettier --write .",
-    "prettier": "prettier --check ."
+    "prettier": "prettier --check .",
+    "dev:bot": "cd bot && pnpm dev",
+    "dev:server": "cd server && pnpm dev",
+    "dev:db": "cd database && sh start-db.sh"
   },
   "repository": {
     "type": "git",
