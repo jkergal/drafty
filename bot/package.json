@@ -5,8 +5,7 @@
   "author": "Johann Kergal",
   "license": "ISC",
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "start:watch": "nodemon",
+    "dev": "nodemon",
     "test": "jest --config=jest.config.js --runInBand",
     "test:watch": "jest --config=jest.config.js --watchAll --runInBand",
     "build": "tsc",
