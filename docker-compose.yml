@@ -41,5 +41,23 @@ services:
       - ./server:/app
       - /app/node_modules
 
+  bot:
+    container_name: bot-dev-drafty
+    build:
+      context: ./bot
+      dockerfile: Dockerfile
+      target: ${NODE_ENV}
+    env_file:
+      - ./bot/.env
+    environment:
+      - NODE_ENV=${NODE_ENV}
+    restart: always
+    # depends_on:
+    #   - db-drafty-dev
+    #   - adminer
+    volumes:
+      - ./bot:/app
+      - /app/node_modules
+
 volumes:
   database-content:
