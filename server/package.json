@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "build:watch": "tsc -w -p tsconfig.json",
-    "dev:local": "nodemon",
+    "dev:local": "nodemon --legacy-watch",
     "dev": "cd scripts && sh start-server-dev.sh",
     "term": "cd scripts && sh start-server-container-terminal.sh"
   },

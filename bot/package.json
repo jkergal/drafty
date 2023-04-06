@@ -5,7 +5,7 @@
   "license": "ISC",
   "scripts": {
     "dev": "cd scripts && sh start-bot-dev.sh",
-    "dev:local": "nodemon",
+    "dev:local": "nodemon --legacy-watch",
     "test": "jest --config=jest.config.js --runInBand",
     "test:watch": "jest --config=jest.config.js --watchAll --runInBand",
     "build": "tsc",
