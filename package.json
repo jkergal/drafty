@@ -9,7 +9,7 @@
     "prettier": "prettier --check .",
     "dev:bot": "cd bot && pnpm dev",
     "dev:server": "cd server && pnpm dev",
-    "dev:db": "cd database && sh start-db.sh"
+    "dev:db": "cd database/scripts && sh start-db-dev.sh"
   },
   "repository": {
     "type": "git",

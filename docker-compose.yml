@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   postgres:
-    container_name: db-drafty
+    container_name: db-drafty-dev
     image: postgres:15.2-alpine
     restart: always
     env_file:
@@ -12,22 +12,34 @@ services:
     volumes:
       - database-content:/var/lib/postgresql/data
 
-  # postgres-test:
-  #   container_name: db-test-drafty
-  #   image: postgres:14.6-alpine
-  #   restart: always
-  #   env_file:
-  #     - ./database/.env.test
-  #   expose:
-  #     - 2345
-  #   volumes:
-  #     - database-test:/var/lib/postgresql/data
-  #   command: -p 2345
+  adminer:
+    container_name: adminer-drafty
+    image: adminer
+    ports:
+      - 7000:8080
+    restart: always
+    environment:
+      - ADMINER_DEFAULT_SERVER=postgres
 
-networks:
-  default:
-    driver: bridge
+  server:
+    container_name: server-dev-drafty
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      target: ${NODE_ENV}
+    env_file:
+      - ./server/.env
+    environment:
+      - NODE_ENV=${NODE_ENV}
+    restart: always
+    ports:
+      - 6000:8080
+    # depends_on:
+    #   - db-drafty-dev
+    #   - adminer
+    volumes:
+      - ./server:/app
+      - /app/node_modules
 
 volumes:
   database-content:
-  # database-test:
