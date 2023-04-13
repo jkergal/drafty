@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import { randomUUID } from 'crypto';
 
 const prisma = new PrismaClient();
 
@@ -47,7 +46,7 @@ async function main() {
     },
   });
 
-  console.log({ draftyConfig });
+  console.info({ seeds: { draftyConfig, enrollmentMessage, pod, gameTable } });
 }
 
 main()
