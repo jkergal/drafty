@@ -24,10 +24,10 @@ jobs:
         run: npm install -g pnpm
 
       - name: Install dependencies globally
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
       - name: Install dependencies on bot
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
         working-directory: ./bot
 
       - name: Restore Github Cache
