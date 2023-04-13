@@ -1,0 +1,48 @@
+name: server CI
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/server.yml'
+      - 'server/**'
+
+env:
+  SERVICE_NAME: 'server'
+  NODEJS_VERSION: '18.12.1'
+  PNPM_VERSION: '7.30.1'
+
+jobs:
+  workflow:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v3
+
+      - name: Install pnpm globally
+        run: npm install -g pnpm
+
+      - name: Install dependencies globally
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Install dependencies on server
+        run: pnpm install --no-frozen-lockfile
+        working-directory: ./server
+
+      - name: Restore Github Cache
+        uses: actions/cache@v3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.OS }}-platform-server-${{ hashFiles('pnpm-lock.yaml', '**/pnpm-lock.yaml') }}
+
+      - name: Run Linter
+        run: pnpm lint
+        working-directory: ./server
+
+      - name: Run Prettier Formatting
+        run: npx prettier --write .
+
+      - name: Run Build
+        run: pnpm build
+        working-directory: ./server
