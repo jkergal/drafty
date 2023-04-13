@@ -1,12 +1,11 @@
 {
   "name": "drafty-bot",
   "version": "1.0.0",
-  "main": "index.js",
   "author": "Johann Kergal",
   "license": "ISC",
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "start:watch": "nodemon",
+    "dev": "cd scripts && sh start-bot-dev.sh",
+    "dev:local": "nodemon --legacy-watch",
     "test": "jest --config=jest.config.js --runInBand",
     "test:watch": "jest --config=jest.config.js --watchAll --runInBand",
     "build": "tsc",

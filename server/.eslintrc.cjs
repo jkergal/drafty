@@ -49,5 +49,5 @@ module.exports = {
       files: ['.test.ts', '.spec.ts'],
     },
   ],
-  ignorePatterns: ['**/*.test.ts', '**/*.spec.ts', 'dist', 'prisma/seed.ts'],
+  ignorePatterns: ['**/*.test.ts', '**/*.spec.ts', 'dist'],
 };
