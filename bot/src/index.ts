@@ -3,6 +3,7 @@ import ready from '@/listeners/ready';
 import { Client, IntentsBitField } from 'discord.js';
 import * as dotenv from 'dotenv';
 import { startEnrollmentMessage } from './jobs/startEnrollmentMessage';
+import { createDraftyConfig } from './repositories/create-drafty-config.repository';
 
 dotenv.config();
 
@@ -23,3 +24,5 @@ client.login(token);
 ready(client, () => startEnrollmentMessage(client));
 
 interactionCreate(client);
+
+createDraftyConfig();

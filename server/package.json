@@ -16,7 +16,7 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "Johann Kergal",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "4.12.0",

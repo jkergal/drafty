@@ -16,13 +16,14 @@
     "removeComments": true,
     "typeRoots": ["node_modules/@types"],
     "sourceMap": false,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@database/*": ["../database/*"]
     },
     "types": ["jest", "node"]
   },
-  "include": ["src/**/*.ts", ".eslintrc.cjs", "environment.d.ts", "jest.config.js"],
+  "include": ["src/**/*.ts", ".eslintrc.cjs", "environment.d.ts", "jest.config.js", "../database/**/*.ts"],
   "exclude": ["node_modules", "dist"],
   "ts-node": {
     "files": true,
