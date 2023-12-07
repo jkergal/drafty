@@ -3,6 +3,7 @@ import { randomUUID } from 'crypto';
 
 const prisma = new PrismaClient();
 
+// @POC: example using prisma from database workspace
 export const createDraftyConfig = async () => {
   const draftyConfig = await prisma.drafty_configurations.create({
     data: {
@@ -13,8 +14,6 @@ export const createDraftyConfig = async () => {
       current_mtg_format: 'DND',
     },
   });
-
-  console.log({ draftyConfig });
 
   return draftyConfig;
 };
