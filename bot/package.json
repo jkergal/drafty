@@ -15,9 +15,11 @@
     "prettier": "(cd .. && pnpm prettier)"
   },
   "dependencies": {
+    "@supabase/supabase-js": "2.39.0",
     "cron": "^2.2.0",
     "dayjs": "^1.11.7",
-    "discord.js": "^14.7.1"
+    "discord.js": "^14.7.1",
+    "supabase": "workspace:*"
   },
   "devDependencies": {
     "@types/cron": "^2.0.0",
