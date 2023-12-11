@@ -3,3 +3,4 @@ packages:
   - 'server'
   - 'core'
   - 'database'
+  - 'supabase'
