@@ -1,6 +1,3 @@
 packages:
   - 'bot'
-  - 'server'
-  - 'core'
-  - 'database'
   - 'supabase'
