@@ -1,5 +1,5 @@
 {
-  "name": "supabase",
+  "name": "database",
   "version": "0.0.1",
   "description": "Supabase db for Drafty project",
   "private": true,
