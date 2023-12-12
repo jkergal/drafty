@@ -1,23 +1,19 @@
 #!/bin/bash
+inputFile="/home/jkergal/dev/drafty/database/docs/01-tables.generated.sql"
 
-# Chemin vers le fichier de types générés par Supabase
-inputFile="/home/jkergal/dev/drafty/database/types/database.types.ts"
-
-# Chemin vers le fichier de sortie main.types.ts
 outputFile="/home/jkergal/dev/drafty/database/types/main.types.ts"
 
-# Extrait les noms des tables du fichier de types
-tableNames=($(grep -oE '\b[a-z][a-zA-Z0-9_]*: \{' "$inputFile" | sed 's/: {//'))
+tableNames=($(grep -oE 'CREATE TABLE public\.([a-z_]+)' "$inputFile" | sed -E 's/CREATE TABLE public\.([a-z_]+)/\1/'))
 
-# Génère dynamiquement le contenu du fichier main.types.ts
 > "$outputFile"
 echo "import { SupabackTypes } from './generic.types'" >> "$outputFile"
 echo "" >> "$outputFile"
 echo $tableNames
 
-# Génère les types pour chaque table et les déclarations
 for tableName in "${tableNames[@]}"; do
-  echo "export type $tableName = SupabackTypes<'$tableName'>" >> "$outputFile"
+  pascalCaseTableName="$(sed -E 's/(^|_)([a-z])/\U\2/g' <<< $tableName)"
+
+  echo "export type $pascalCaseTableName = SupabackTypes<'$tableName'>" >> "$outputFile"
 done
 
-echo "Le fichier $outputFile a été généré avec succès."
+echo "Main database types has been successfully generated"
