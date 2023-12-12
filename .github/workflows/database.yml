@@ -1,13 +1,13 @@
-name: CI for supaback
+name: CI for database
 on:
   pull_request:
     types: [opened, reopened, synchronize, ready_for_review]
     paths:
       - .github/actions/install-pnpm/action.yml
       - .github/actions/install-dependencies/action.yml
-      - .github/workflows/ci-supaback.yml
-      - supaback/supabase/migrations/**
-      - supaback/package.json
+      - .github/workflows/database.yml
+      - database/supabase/migrations/**
+      - database/package.json
 permissions:
   contents: write
 jobs:
@@ -17,7 +17,7 @@ jobs:
     timeout-minutes: 10
     defaults:
       run:
-        working-directory: ./supaback
+        working-directory: ./database
     steps:
       - name: ⚒️ Checkout the commit
         uses: actions/checkout@v4
@@ -40,10 +40,10 @@ jobs:
       - name: Push detected changes on generated files
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: 'chore(supaback): update types / generated files'
+          commit_message: 'chore(database): update types / generated files'
           commit_options: '--no-verify'
           file_pattern: 'database.types.ts *.generated.sql'
-          repository: './supaback'
+          repository: './database'
 
       - name: Verify Bot compilation
         run: pnpm build
