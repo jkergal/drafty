@@ -15,5 +15,13 @@ declare module NodeJS {
     FRIDAY_EMOJI: string;
     SATURDAY_EMOJI: string;
     SUNDAY_EMOJI: string;
+    API_URL: string;
+    GRAPHQL_URL: string;
+    DB_URL: string;
+    STUDIO_URL: string;
+    INBUCKET_URL: string;
+    JWT_SECRET: string;
+    ANON_KEY: string;
+    SERVICE_ROLE_KEY: string;
   }
 }

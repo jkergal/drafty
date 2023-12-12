@@ -1,19 +1,12 @@
-import { PrismaClient } from '@database/prisma/client';
-import { randomUUID } from 'crypto';
+import { PostgresErrorFr } from '@/errors/postgres-error-fr';
+import { Database } from '@database/database.types';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { objectToCamel } from 'ts-case-convert';
 
-const prisma = new PrismaClient();
+export const getDraftyConfig = async (supabase: SupabaseClient<Database>) => {
+  const { data, error } = await supabase.from('drafty_configurations').select(`scheduled_message`);
 
-// @POC: example using prisma from database workspace
-export const createDraftyConfig = async () => {
-  const draftyConfig = await prisma.drafty_configurations.create({
-    data: {
-      id: randomUUID(),
-      checkin_message: 'Prout checkin',
-      scheduled_message: 'Prout scheduled msg',
-      cron_date: '00 * * * * *',
-      current_mtg_format: 'DND',
-    },
-  });
+  if (error !== null) throw new PostgresErrorFr(error.message, error.code);
 
-  return draftyConfig;
+  return objectToCamel(data);
 };
