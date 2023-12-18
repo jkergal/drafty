@@ -11,7 +11,7 @@
     "dump:permissions": "PGPASSWORD=postgres pg_dump --host=localhost --port=54332 --username=postgres --dbname=postgres --data-only --column-inserts --schema=public --table=public.role_permissions | awk 'BEGIN{print \"-- pgFormatter-ignore\"}RS=\"\";/INSERT INTO[^;]*;/' > docs/04-permissions.generated.sql",
     "dump:policies": "PGPASSWORD=postgres pg_dump --host=localhost --port=54332 --username=postgres --dbname=postgres --schema-only --schema=public --schema storage | awk 'BEGIN{print \"-- pgFormatter-ignore\"}RS=\"\";/CREATE POLICY[^;]*;/' > docs/02-policies.generated.sql",
     "dump:tables": "PGPASSWORD=postgres pg_dump --host=localhost --port=54332 --username=postgres --dbname=postgres --schema-only --schema=public | awk 'BEGIN{print \"-- pgFormatter-ignore\"}RS=\"\";/(CREATE TYPE|CREATE INDEX|CREATE TABLE|CREATE RULE|CREATE TRIGGER|CREATE VIEW|ALTER TABLE)[^;]*;/' > docs/01-tables.generated.sql",
-    "generate:types": "pnpm db:reset && supabase gen types typescript --local > database.types.ts && concurrently \"pnpm:dump:*\"",
+    "generate:types": "pnpm db:reset && supabase gen types typescript --local > types/__generated__/database.types.ts && concurrently \"pnpm:dump:*\" && scripts/generate-main-types.sh",
     "prettier:fix": "(cd .. && pnpm prettier:fix)",
     "prettier": "(cd .. && pnpm prettier)"
   },

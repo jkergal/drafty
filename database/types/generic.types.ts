@@ -1,4 +1,4 @@
-import { Database as DatabaseGenerated } from './database.types';
+import { Database as DatabaseGenerated } from './__generated__/database.types';
 type Tables = Database['public']['Tables'];
 
 export type SupabackTypes<
