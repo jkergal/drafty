@@ -4,8 +4,7 @@
   "author": "Johann Kergal",
   "license": "ISC",
   "scripts": {
-    "dev": "cd scripts && sh start-bot-dev.sh",
-    "dev:local": "nodemon --legacy-watch",
+    "dev": "nodemon --legacy-watch",
     "test": "jest --config=jest.config.js --runInBand",
     "test:watch": "jest --config=jest.config.js --watchAll --runInBand",
     "build": "tsc",

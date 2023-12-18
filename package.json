@@ -8,9 +8,7 @@
     "clean": "pnpm -r --include-workspace-root exec rm -rf node_modules && rm -rf $(pnpm store path)",
     "prettier:fix": "prettier --write .",
     "prettier": "prettier --check .",
-    "dev:bot": "cd bot && pnpm dev",
-    "dev:server": "cd server && pnpm dev",
-    "dev:db": "cd database/scripts && sh start-db-dev.sh"
+    "dev:bot": "cd bot && pnpm dev"
   },
   "repository": {
     "type": "git",
