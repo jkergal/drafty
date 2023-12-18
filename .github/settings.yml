@@ -1,7 +1,6 @@
 repository:
   # See https://github.com/repository-settings/app for all available settings.
-  name: monorepo
-  homepage: https://app.clapclap.com/
+  name: drafty
   private: true
 
   allow_auto_merge: true

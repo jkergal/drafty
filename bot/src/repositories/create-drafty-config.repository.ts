@@ -1,5 +1,5 @@
 import { PostgresErrorFr } from '@/errors/postgres-error-fr';
-import { Database } from '@database/database.types';
+import { Database } from '@database/types/generic.types';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { objectToCamel } from 'ts-case-convert';
 

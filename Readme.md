@@ -34,18 +34,7 @@ pnpm clean
 
 Then reinstalls dependencies.
 
-## First start of applications
-
-After install all dependencies, we need to start the applications.
-You can run the docker containers directly from the root :
-
-```
-pnpm dev:db
-```
-
-```
-pnpm dev:server
-```
+## First start of bot
 
 ```
 pnpm dev:bot
