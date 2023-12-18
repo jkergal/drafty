@@ -1,0 +1,1 @@
+export const SCHEDULED_MESSAGE_TAG_REGEX = /\$(.*?)\$/g
