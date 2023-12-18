@@ -2,7 +2,10 @@ import interactionCreate from '@/listeners/interactionCreate';
 import ready from '@/listeners/ready';
 import { Client, IntentsBitField } from 'discord.js';
 import * as dotenv from 'dotenv';
+import { supabaseAdmin } from './database/supabase-admin';
 import { startEnrollmentMessage } from './jobs/startEnrollmentMessage';
+import { getDraftyConfig } from './repositories/create-drafty-config.repository';
+import { TDraftyConfigurations } from '@database/types/__generated__/main.types';
 
 dotenv.config();
 
@@ -20,6 +23,12 @@ const client = new Client({
 
 client.login(token);
 
-ready(client, () => startEnrollmentMessage(client));
+ready(client, async () => {
+  startEnrollmentMessage(client);
+
+  const draftyConfig: { scheduledMessage: TDraftyConfigurations['scheduled_message'] }[] =
+    await getDraftyConfig(supabaseAdmin);
+  console.info({ draftyConfig });
+});
 
 interactionCreate(client);

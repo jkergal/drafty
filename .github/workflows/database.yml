@@ -1,0 +1,50 @@
+name: CI for database
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+    paths:
+      - .github/actions/install-pnpm/action.yml
+      - .github/actions/install-dependencies/action.yml
+      - .github/workflows/database.yml
+      - database/supabase/migrations/**
+      - database/package.json
+permissions:
+  contents: write
+jobs:
+  ci-supaback:
+    if: ${{ github.event_name == 'push' || !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: ./database
+    steps:
+      - name: ⚒️ Checkout the commit
+        uses: actions/checkout@v4
+
+      - name: 🔶 Install pnpm
+        uses: ./.github/actions/install-pnpm
+
+      - name: 📦 Install dependencies
+        uses: ./.github/actions/install-dependencies
+
+      - name: Install Supabase cli
+        uses: ./.github/actions/install-supabase
+
+      - name: Start Supabase local development setup
+        run: supabase start
+
+      - name: Generate types and SQL dump files
+        run: pnpm generate:types
+
+      - name: Push detected changes on generated files
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: 'chore(database): update types / generated files'
+          commit_options: '--no-verify'
+          file_pattern: 'database.types.ts *.generated.sql'
+          repository: './database'
+
+      - name: Verify Bot compilation
+        run: pnpm build
+        working-directory: ./bot

@@ -4,7 +4,7 @@ CREATE TABLE "drafty_configurations" (
     "created_at" DATE,
     "scheduled_message" VARCHAR NOT NULL,
     "checkin_message" VARCHAR NOT NULL,
-    "cron_date" VARCHAR NOT NULL,
+    "cron" VARCHAR NOT NULL,
     "current_mtg_format" VARCHAR NOT NULL,
 
     CONSTRAINT "drafty_configurations_pkey" PRIMARY KEY ("id")
@@ -39,7 +39,7 @@ CREATE TABLE "game_tables" (
 -- CreateTable
 CREATE TABLE "pods" (
     "id" UUID NOT NULL,
-    "enrollment_messages_id" UUID NOT NULL,
+    "enrollment_message_id" UUID NOT NULL,
     "starts_at" DATE NOT NULL,
 
     CONSTRAINT "pods_pkey" PRIMARY KEY ("id")
@@ -49,5 +49,5 @@ CREATE TABLE "pods" (
 ALTER TABLE "game_tables" ADD CONSTRAINT "game_tables_pod_id_fkey" FOREIGN KEY ("pod_id") REFERENCES "pods"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "pods" ADD CONSTRAINT "pods_enrollment_messages_id_fkey" FOREIGN KEY ("enrollment_messages_id") REFERENCES "enrollment_messages"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "pods" ADD CONSTRAINT "pods_enrollment_message_id_fkey" FOREIGN KEY ("enrollment_message_id") REFERENCES "enrollment_messages"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
