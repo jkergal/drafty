@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/jkergal/drafty#readme",
   "devDependencies": {
-    "prettier": "^2.8.4"
+    "prettier": "^3.1.1"
   }
 }
