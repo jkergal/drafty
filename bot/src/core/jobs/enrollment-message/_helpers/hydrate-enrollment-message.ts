@@ -43,7 +43,7 @@ export const getScheduledTagValues = (
   $CURRENT_MTG_FORMAT: currentMtgFormat,
   $EMOJI_TUESDAY: getEmojis(getGuild(client)).tuesday?.toString(),
   $TIMESTAMP_NEXT_WEEK_TUESDAY: formatDiscordTimestamp(getDayONextfWeekTimestamp(2)),
-  $EMOJI_WEDNESDAY: getEmojis(getGuild(client)).wednesday?.toString()?.toString().replace('::', ':_:'),
+  $EMOJI_WEDNESDAY: getEmojis(getGuild(client)).wednesday?.toString()?.toString(),
   $TIMESTAMP_NEXT_WEEK_WEDNESDAY: formatDiscordTimestamp(getDayONextfWeekTimestamp(3)),
   $EMOJI_THURSDAY: getEmojis(getGuild(client)).thursday?.toString(),
   $TIMESTAMP_NEXT_WEEK_THURSDAY: formatDiscordTimestamp(getDayONextfWeekTimestamp(4)),
