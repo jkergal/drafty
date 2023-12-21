@@ -50,17 +50,5 @@ export const formatEnrollmentMessage = (client: Client) => {
   return scheduledMessage;
 };
 
-export const encodedSchedulesMessage = `
-**- Ouverture des inscriptions pour la semaine du $/WEEK_START_DATE/$ au $/WEEK_END_DATE/$** 
-\n\nPour vous inscrire réagissez à ce message avec vos jours de disponibilité : 
-\n\n$/EMOJI_MONDAY/$ : Lundi $/TIMESTAMP_NEXT_WEEk_MONDAY/$ (20h) - Draft $/CURRENT_MTG_FORMAT/$ 
-\n$/EMOJI_TUESDAY/$ : Mardi $/TIMESTAMP_NEXT_WEEk_TUESDAY/$ (20h) - Draft $/CURRENT_MTG_FORMAT/$ 
-\n$/EMOJI_WEDNESDAY/$ : Mercredi $/TIMESTAMP_NEXT_WEEk_WEDNESDAY/$ (20h) - Draft $/CURRENT_MTG_FORMAT/$ 
-\n$/EMOJI_THURSDAY/$ : Jeudi $/TIMESTAMP_NEXT_WEEk_THURSDAY/$ (20h30) - Draft $/CURRENT_MTG_FORMAT/$ 
-\n$/EMOJI_FRIDAY/$ : Vendredi/TIMESTAMP_NEXT_WEEk_FRIDAY/$ (20h30) - Draft $/CURRENT_MTG_FORMAT/$ 
-\n$/EMOJI_SATURDAY/$ : Samedi $/TIMESTAMP_NEXT_WEEk_SATURDAY/$ (20h) - Draft $/CURRENT_MTG_FORMAT/$ 
-\n$/EMOJI_SUNDAY/$ : Dimanche $/TIMESTAMP_NEXT_WEEk_SUNDAY/$ (20h) - Draft $/CURRENT_MTG_FORMAT/$ 
-\n$/EMOJI_ASYNC/$ : Dimanche $/TIMESTAMP_NEXT_WEEk_SUNDAY/$ : Draft Asynchrone (21h) - $/CURRENT_MTG_FORMAT/$ 
-\n\nDès lors qu'une table de 8 joueurs est complète (*9 réactions sur un emoji, puisque le bot en avait mise une au préalable*), un message de check-in automatique sera posté dans le channel approprié. 
-\nVous serez alors tagués et invités à valider votre présence. 
-\n\nLes joueurs inscrits supplémentaires (mais en nombre insuffisant pour constituer une POD) sont considérés comme prioritaires sur les remplacements éventuels (absence de check-in, désistement de dernière minute etc...).`;
+export const encodedSchedulesMessage =
+  "**- Ouverture des inscriptions pour la semaine du $/WEEK_START_DATE/$ au $/WEEK_END_DATE/$** \n\nPour vous inscrire réagissez à ce message avec vos jours de disponibilité : \n\n$/EMOJI_MONDAY/$ : Lundi $/TIMESTAMP_NEXT_WEEk_MONDAY/$ (20h) - Draft $/CURRENT_MTG_FORMAT/$ \n$/EMOJI_TUESDAY/$ : Mardi $/TIMESTAMP_NEXT_WEEk_TUESDAY/$ (20h) - Draft $/CURRENT_MTG_FORMAT/$ \n$/EMOJI_WEDNESDAY/$ : Mercredi $/TIMESTAMP_NEXT_WEEk_WEDNESDAY/$ (20h) - Draft $/CURRENT_MTG_FORMAT/$ \n$/EMOJI_THURSDAY/$ : Jeudi $/TIMESTAMP_NEXT_WEEk_THURSDAY/$ (20h30) - Draft $/CURRENT_MTG_FORMAT/$ \n$/EMOJI_FRIDAY/$ : Vendredi/TIMESTAMP_NEXT_WEEk_FRIDAY/$ (20h30) - Draft $/CURRENT_MTG_FORMAT/$ \n$/EMOJI_SATURDAY/$ : Samedi $/TIMESTAMP_NEXT_WEEk_SATURDAY/$ (20h) - Draft $/CURRENT_MTG_FORMAT/$ \n$/EMOJI_SUNDAY/$ : Dimanche $/TIMESTAMP_NEXT_WEEk_SUNDAY/$ (20h) - Draft $/CURRENT_MTG_FORMAT/$ \n$/EMOJI_ASYNC/$ : Dimanche $/TIMESTAMP_NEXT_WEEk_SUNDAY/$ : Draft Asynchrone (21h) - $/CURRENT_MTG_FORMAT/$ \n\nDès lors qu'une table de 8 joueurs est complète (*9 réactions sur un emoji, puisque le bot en avait mise une au préalable*), un message de check-in automatique sera posté dans le channel approprié. \nVous serez alors tagués et invités à valider votre présence. \n\nLes joueurs inscrits supplémentaires (mais en nombre insuffisant pour constituer une POD) sont considérés comme prioritaires sur les remplacements éventuels (absence de check-in, désistement de dernière minute etc...).";
