@@ -1,4 +1,4 @@
-import { formatCronParams } from '../../helpers/format/formatCronParams';
+import { formatCronParams } from './format-cron-params';
 
 describe('formatCronParams', () => {
   it('should return a string with the correct formatted cron params', () => {

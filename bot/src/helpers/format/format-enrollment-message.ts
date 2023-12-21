@@ -2,11 +2,11 @@
 
 import { getEmojis } from '@/cache/getEmojis';
 import { getGuild } from '@/cache/getGuild';
-import { CURRENT_MTG_FORMAT } from '@/constants/DRAFTY';
-import { ASYNC_EMOJI } from '@/constants/EMOJIS';
-import { getDayONextfWeekTimestamp } from '@/helpers/dates/getDayONextfWeekTimestamp';
 import { Client } from 'discord.js';
-import { formatDiscordTimestamp } from './formatDiscordTimestamp';
+import { formatDiscordTimestamp } from './format-discord-timestamp';
+import { CURRENT_MTG_FORMAT } from '@/constants/drafty';
+import { ASYNC_EMOJI } from '@/constants/emojis';
+import { getDayONextfWeekTimestamp } from '../dates/get-day-of-next-wee-timestamp';
 
 export const formatEnrollmentMessage = (client: Client) => {
   const scheduledMessage =
