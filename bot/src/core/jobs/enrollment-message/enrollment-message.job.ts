@@ -1,4 +1,4 @@
-import { getChannels } from '@/cache/getChannels';
+import { getChannels } from '@/core/discord/cache/getChannels';
 import { CRON_PARAMS } from '@/constants/cron-params';
 import { SCHEDULED_MESSAGE_TAGS_REGEX } from '@/constants/validations';
 import { getScheduledMessageBase } from '@/core/drafty-configurations/repository';

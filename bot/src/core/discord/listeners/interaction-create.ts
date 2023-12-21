@@ -1,5 +1,5 @@
-import { Commands } from '@/commands/_index';
 import { Client, CommandInteraction } from 'discord.js';
+import { Commands } from '../commands/_index';
 
 export default (client: Client): void => {
   client.on('interactionCreate', async (interaction) => {

@@ -1,8 +1,8 @@
-import ready from '@/listeners/ready';
 import { Client, IntentsBitField } from 'discord.js';
+import interactionCreate from './core/discord/listeners/interaction-create';
+import { startEnrollmentMessageJob } from './core/jobs/enrollment-message/enrollment-message.job';
+import ready from './core/discord/listeners/ready';
 import * as dotenv from 'dotenv';
-import interactionCreate from './listeners/interaction-create';
-import { startEnrollmentMessageJob } from './jobs/enrollment-message/enrollment-message.job';
 
 dotenv.config();
 
