@@ -28,7 +28,7 @@ type TagKey =
 
 type TagValues = Record<TagKey, string | undefined>;
 
-export const getScheduledTagValues = (
+export const getEnrollmentMessageContentTagValues = (
   client: Client,
   currentMtgFormat: TDraftyConfigurations['current_mtg_format'],
 ) => ({
@@ -61,11 +61,11 @@ export const hydrateEnrollmentMessage = ({
   client,
   currentMtgFormat,
 }: {
-  baseMessage: TDraftyConfigurations['scheduled_message'];
+  baseMessage: TDraftyConfigurations['enrollment_message_content'];
   client: Client;
   currentMtgFormat: TDraftyConfigurations['current_mtg_format'];
 }): string => {
-  const tagValues: TagValues = getScheduledTagValues(client, currentMtgFormat);
+  const tagValues: TagValues = getEnrollmentMessageContentTagValues(client, currentMtgFormat);
 
   const hydratedMessage = Object.keys(tagValues).reduce((_hydratedMessage, key) => {
     const tagKey = key as TagKey;

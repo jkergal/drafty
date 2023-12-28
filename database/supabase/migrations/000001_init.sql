@@ -2,8 +2,8 @@
 CREATE TABLE "drafty_configurations" (
     "id" UUID NOT NULL,
     "created_at" DATE,
-    "scheduled_message" VARCHAR NOT NULL,
-    "checkin_message" VARCHAR NOT NULL,
+    "enrollment_message_content" VARCHAR NOT NULL,
+    "checkin_message_content" VARCHAR NOT NULL,
     "cron" VARCHAR NOT NULL,
     "current_mtg_format" VARCHAR NOT NULL,
 

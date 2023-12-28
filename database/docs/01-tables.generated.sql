@@ -2,8 +2,8 @@
 CREATE TABLE public.drafty_configurations (
     id uuid NOT NULL,
     created_at date,
-    scheduled_message character varying NOT NULL,
-    checkin_message character varying NOT NULL,
+    enrollment_message_content character varying NOT NULL,
+    checkin_message_content character varying NOT NULL,
     cron character varying NOT NULL,
     current_mtg_format character varying NOT NULL
 );

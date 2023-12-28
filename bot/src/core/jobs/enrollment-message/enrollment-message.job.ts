@@ -13,9 +13,9 @@ export const startEnrollmentMessageJob = async (client: Client) => {
     console.info('Cron message job started.');
 
     const { enrollmentsChannel } = getChannels(client);
-    const { scheduledMessage, currentMtgFormat } = await getDraftyConfigDetails(supabaseAdmin);
+    const { enrollmentMessageContent, currentMtgFormat } = await getDraftyConfigDetails(supabaseAdmin);
     const hydratedMessage = hydrateEnrollmentMessage({
-      baseMessage: scheduledMessage,
+      baseMessage: enrollmentMessageContent,
       client,
       currentMtgFormat,
     });

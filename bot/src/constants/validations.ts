@@ -1,1 +1,1 @@
-export const SCHEDULED_MESSAGE_TAGS_REGEX = /\$(.*?)\$/g;
+export const ENROLLMENT_MESSAGE_TAGS_REGEX = /\$(.*?)\$/g;
