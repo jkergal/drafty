@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 
-import { getEmojis } from '@/cache/getEmojis';
-import { getGuild } from '@/cache/getGuild';
-import { CURRENT_MTG_FORMAT } from '@/constants/DRAFTY';
-import { ASYNC_EMOJI } from '@/constants/EMOJIS';
-import { getDayONextfWeekTimestamp } from '@/helpers/dates/getDayONextfWeekTimestamp';
 import { Client } from 'discord.js';
-import { formatDiscordTimestamp } from './formatDiscordTimestamp';
+import { formatDiscordTimestamp } from './format-discord-timestamp';
+import { CURRENT_MTG_FORMAT } from '@/constants/drafty';
+import { ASYNC_EMOJI } from '@/constants/emojis';
+import { getDayONextfWeekTimestamp } from '../dates/get-day-of-next-wee-timestamp';
+import { getEmojis } from '@/core/discord/cache/get-emojis';
+import { getGuild } from '@/core/discord/cache/get-guilds';
 
 export const formatEnrollmentMessage = (client: Client) => {
-  const scheduledMessage =
+  const enrollmentMessageContent =
     `**- Ouverture des inscriptions pour la semaine du ${formatDiscordTimestamp(
       getDayONextfWeekTimestamp(1),
       {
@@ -47,5 +47,5 @@ export const formatEnrollmentMessage = (client: Client) => {
     `Vous serez alors tagués et invités à valider votre présence. \n\n` +
     `Les joueurs inscrits supplémentaires (mais en nombre insuffisant pour constituer une POD) sont considérés comme prioritaires sur les remplacements éventuels (absence de check-in, désistement de dernière minute etc...).`;
 
-  return scheduledMessage;
+  return enrollmentMessageContent;
 };

@@ -1,5 +1,5 @@
 import { Client } from 'discord.js';
-import { Commands } from '../Commands';
+import { Commands } from '../commands/_index';
 
 export default (client: Client, startCronjobs: () => Promise<void>): void => {
   client.on('ready', async () => {
