@@ -17,7 +17,7 @@
   },
   "author": "Johann Kergal",
   "devDependencies": {
-    "@supabase/postgrest-js": "1.9.0",
-    "concurrently": "8.2.2"
+    "@supabase/postgrest-js": "1.21.4",
+    "concurrently": "9.2.1"
   }
 }

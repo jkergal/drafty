@@ -2,10 +2,9 @@ import { Client, CommandInteraction } from 'discord.js';
 import { Commands } from '../commands/_index';
 
 export default (client: Client): void => {
-  client.on('interactionCreate', async (interaction) => {
-    if (interaction.isCommand() || interaction.isUserContextMenuCommand()) {
-      await handleSlashCommand(client, interaction);
-    }
+  client.on('interactionCreate', (interaction) => {
+    if (interaction.isCommand() || interaction.isUserContextMenuCommand())
+      void handleSlashCommand(client, interaction);
   });
 };
 
