@@ -67,3 +67,7 @@ secret = ""
 # Overrides the default auth provider URL. Used to support self-hosted gitlab, single-tenant Azure,
 # or any other third-party OIDC providers.
 url = ""
+
+# @TODO: to re-enable when issues will be fix: https://github.com/supabase/cli/issues/2588
+[analytics]
+enabled = false
