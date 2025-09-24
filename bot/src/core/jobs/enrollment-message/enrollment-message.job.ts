@@ -1,4 +1,7 @@
-import { getDraftyConfigCron, getDraftyConfigDetails } from '@/core/data/drafty-configurations/repository';
+import {
+  getDraftyConfigCron,
+  getDraftyConfigDetails,
+} from '@/core/data/drafty-configurations/repository';
 import { sendTextMessage } from '@/core/discord/actions/send-text-message';
 import { getChannels } from '@/core/discord/cache/get-channel';
 import { supabaseAdmin } from '@/database/supabase-admin';
@@ -12,15 +15,31 @@ export const startEnrollmentMessageJob = async (client: Client) => {
   const job = new CronJob(cron, async () => {
     console.info('Cron message job started.');
 
-    const { enrollmentsChannel } = getChannels(client);
-    const { enrollmentMessageContent, currentMtgFormat } = await getDraftyConfigDetails(supabaseAdmin);
+    const { enrollmentsChannel, checkinAsyncChannel, checkinChannel1 } =
+      getChannels(client);
+
+    const {
+      enrollmentMessageContent,
+      currentMtgFormat,
+      maxPodEntries,
+      registrationPeriodInDays,
+    } = await getDraftyConfigDetails(supabaseAdmin);
+
     const hydratedMessage = hydrateEnrollmentMessage({
       baseMessage: enrollmentMessageContent,
       client,
       currentMtgFormat,
     });
 
-    sendTextMessage(enrollmentsChannel, hydratedMessage, () => console.info('Message sent'));
+    sendTextMessage(
+      enrollmentsChannel,
+      hydratedMessage,
+      {
+        maxPodEntries,
+        registrationPeriodInDays,
+      },
+      () => console.info('Message sent'),
+    );
   });
 
   job.start();

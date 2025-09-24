@@ -14,7 +14,7 @@ export const getDraftyConfigCron = async (supabase: SupabaseClient<Database>) =>
 export const getDraftyConfigDetails = async (supabase: SupabaseClient<Database>) => {
   const { data, error } = await supabase
     .from('drafty_configurations')
-    .select(`enrollment_message_content, current_mtg_format`);
+    .select(`enrollment_message_content, current_mtg_format, max_pod_entries, registration_period_in_days`);
 
   if (error !== null) throw new PostgresErrorFr(error.message, error.code);
 
