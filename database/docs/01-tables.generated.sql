@@ -5,7 +5,9 @@ CREATE TABLE public.drafty_configurations (
     enrollment_message_content character varying NOT NULL,
     checkin_message_content character varying NOT NULL,
     cron character varying NOT NULL,
-    current_mtg_format character varying NOT NULL
+    current_mtg_format character varying NOT NULL,
+    max_pod_entries integer DEFAULT 8 NOT NULL,
+    registration_period_in_days integer DEFAULT 11 NOT NULL
 );
 ALTER TABLE public.drafty_configurations OWNER TO postgres;
 CREATE TABLE public.enrollment_messages (
