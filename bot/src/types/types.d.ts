@@ -30,4 +30,4 @@ export type PodDay = (typeof POD_DAYS)[keyof typeof POD_DAYS];
 export type PodDayNumber = PodDay['number'];
 export type PodDayName = PodDay['name'];
 export type PodDayEmojiName = PodDay['emojiName'];
-export type PodNumber = 1 | 2;
+export type PodNumber = 0 | 1 | 2;

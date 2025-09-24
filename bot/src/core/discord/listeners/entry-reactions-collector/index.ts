@@ -16,19 +16,20 @@ export type ReactionParams = {
   emojiName: ReactionEmoji['name'];
   podDay: PodDayName;
   dayOfTheWeek: PodDayNumber;
-  podNumber: PodNumber;
   hour: typeof POD_HOUR;
   channel1: Channel | undefined;
   channel2: Channel | undefined;
   podDiscordTimestamp: string;
 };
 
+let podNumber: PodNumber = 0;
+
 export const entryReactionsCollectorListener = (
-  //   client: Client,
   sentMessage: Message<true>,
   params: PodParams & ReactionParams,
 ): void => {
   const { maxPodEntries, registrationPeriodInDays, emojiName } = params;
+  podNumber = podNumber++ as PodNumber;
 
   const filter = (reaction: MessageReaction, user: User) => {
     return [emojiName].includes(reaction.emoji.name) && user.id !== sentMessage.author.id;
@@ -43,7 +44,7 @@ export const entryReactionsCollectorListener = (
 
   entriesCollectorListener(collector);
   removeEntryListener(collector);
-  entriesCollectingEndListener(collector, sentMessage, params);
+  entriesCollectingEndListener(collector, sentMessage, { ...params, podNumber });
 };
 
 const entriesCollectorListener = (collector: ReactionCollector) => {

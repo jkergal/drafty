@@ -1,16 +1,17 @@
 import { ChannelType, Message, ReactionCollector } from 'discord.js';
 import { PodParams } from '../../actions/send-text-message';
 import { entryReactionsCollectorListener, ReactionParams } from '.';
+import { PodNumber } from '@/types/types';
 
 export const entriesCollectingEndListener = (
   collector: ReactionCollector,
   scheduledSentMessage: Message<true>,
-  params: PodParams & ReactionParams,
+  params: PodParams & ReactionParams & { podNumber: PodNumber },
 ) => {
   collector.on('end', (_, reason) => {
     const { channel1, channel2, hour, podDay, podDiscordTimestamp, podNumber } = params;
 
-    if (reason !== 'limit') return;
+    if (reason !== 'limit' || podNumber === 0) return;
 
     const podChannels = {
       1: channel1,
