@@ -4,8 +4,8 @@ declare module NodeJS {
     NODE_ENV: string;
     GUILD_ID: string;
     ENROLLMENTS_CHANNEL: string;
-    CHECKIN_1_CHANNEL: string;
-    CHECKIN_2_CHANNEL: string;
+    CHECKIN_CHANNEL_1: string;
+    CHECKIN_CHANNEL_2: string;
     CHECKIN_ASYNC_CHANNEL: string;
     TUTORIAL_CHANNEL: string;
     MONDAY_EMOJI: string;

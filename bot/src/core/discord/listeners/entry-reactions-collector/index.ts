@@ -9,7 +9,7 @@ import {
 import { PodParams } from '../../actions/send-text-message';
 import { convertDaysToMs } from '@/helpers/computing/convert-days-to-ms';
 import { POD_HOUR } from '@/constants/drafty';
-import { PodDayName, PodDayNumber, PodNumber } from '@/types/types';
+import { PodDayName, PodDayNumber } from '@/types/types';
 import { entriesCollectingEndListener } from './entries-collecting-end';
 
 export type ReactionParams = {
@@ -20,16 +20,14 @@ export type ReactionParams = {
   channel1: Channel | undefined;
   channel2: Channel | undefined;
   podDiscordTimestamp: string;
+  podNumber: number;
 };
-
-let podNumber: PodNumber = 0;
 
 export const entryReactionsCollectorListener = (
   sentMessage: Message<true>,
   params: PodParams & ReactionParams,
 ): void => {
-  const { maxPodEntries, registrationPeriodInDays, emojiName } = params;
-  podNumber = podNumber++ as PodNumber;
+  const { maxPodEntries, registrationPeriodInDays, emojiName, podNumber } = params;
 
   const filter = (reaction: MessageReaction, user: User) => {
     return [emojiName].includes(reaction.emoji.name) && user.id !== sentMessage.author.id;
@@ -44,7 +42,10 @@ export const entryReactionsCollectorListener = (
 
   entriesCollectorListener(collector);
   removeEntryListener(collector);
-  entriesCollectingEndListener(collector, sentMessage, { ...params, podNumber });
+  entriesCollectingEndListener(collector, sentMessage, {
+    ...params,
+    podNumber,
+  });
 };
 
 const entriesCollectorListener = (collector: ReactionCollector) => {
