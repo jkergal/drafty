@@ -60,55 +60,74 @@ export type Database = {
         }
         Relationships: []
       }
-      game_tables: {
+      player_pod: {
         Row: {
-          completed_at: string | null
+          created_at: string
+          deleted_at: string | null
           id: string
-          player_1_discord_id: string | null
-          player_2_discord_id: string | null
-          player_3_discord_id: string | null
-          player_4_discord_id: string | null
-          player_5_discord_id: string | null
-          player_6_discord_id: string | null
-          player_7_discord_id: string | null
-          player_8_discord_id: string | null
+          player_id: string
           pod_id: string
+          updated_at: string
         }
         Insert: {
-          completed_at?: string | null
-          id: string
-          player_1_discord_id?: string | null
-          player_2_discord_id?: string | null
-          player_3_discord_id?: string | null
-          player_4_discord_id?: string | null
-          player_5_discord_id?: string | null
-          player_6_discord_id?: string | null
-          player_7_discord_id?: string | null
-          player_8_discord_id?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          player_id: string
           pod_id: string
+          updated_at?: string
         }
         Update: {
-          completed_at?: string | null
+          created_at?: string
+          deleted_at?: string | null
           id?: string
-          player_1_discord_id?: string | null
-          player_2_discord_id?: string | null
-          player_3_discord_id?: string | null
-          player_4_discord_id?: string | null
-          player_5_discord_id?: string | null
-          player_6_discord_id?: string | null
-          player_7_discord_id?: string | null
-          player_8_discord_id?: string | null
+          player_id?: string
           pod_id?: string
+          updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: "game_tables_pod_id_fkey"
+            foreignKeyName: "player_pod_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "player_pod_pod_id_fkey"
             columns: ["pod_id"]
             isOneToOne: false
             referencedRelation: "pods"
             referencedColumns: ["id"]
           },
         ]
+      }
+      players: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          discord_id: string
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          discord_id: string
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          discord_id?: string
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       pods: {
         Row: {
@@ -141,7 +160,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      check_max_entries_per_pod: {
+        Args: { pod_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
