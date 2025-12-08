@@ -12,13 +12,18 @@ import { entryReactionsCollectorListener } from '@/core/discord/listeners/entry-
 import { getGuild } from '@/core/discord/cache/get-guilds';
 import { initEnrollmentReactions } from '@/core/discord/actions/init-enrollment-reactions';
 import { POD_DAYS, POD_HOUR } from '@/constants/drafty';
+import { AUTO_REACT_ALL, IS_DEV_ENV } from '@/constants/env';
 
 export const startEnrollmentMessageJob = async (client: Client) => {
+  if (IS_DEV_ENV) return enroll(client);
+
   const { cron } = await getDraftyConfigCron(supabaseAdmin);
+  const job = new CronJob(cron, () => enroll(client));
 
-  // const job = new CronJob(cron, async () => {
-  //   console.info('Cron message job started.');
+  job.start();
+};
 
+const enroll = async (client: Client) => {
   const { enrollmentsChannel, checkinChannel1, checkinChannel2 } = getChannels(client);
 
   const guild = getGuild(client);
@@ -46,8 +51,12 @@ export const startEnrollmentMessageJob = async (client: Client) => {
 
   if (reactions === null) return;
 
-  // !reactall - soliders.js
-  if (enrollmentsChannel?.type === ChannelType.GuildText) {
+  if (
+    IS_DEV_ENV &&
+    AUTO_REACT_ALL &&
+    enrollmentsChannel?.type === ChannelType.GuildText
+  ) {
+    // @NOTE: external dev bot called "soldiers.js" reacts to the message with this command
     await enrollmentsChannel.send({ content: '!reactall' });
   }
 
@@ -65,7 +74,4 @@ export const startEnrollmentMessageJob = async (client: Client) => {
       podNumber: index + 1,
     });
   });
-  // });
-
-  // job.start();
 };
