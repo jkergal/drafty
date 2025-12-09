@@ -30,3 +30,7 @@ export type PodDay = (typeof POD_DAYS)[keyof typeof POD_DAYS];
 export type PodDayNumber = PodDay['number'];
 export type PodDayName = PodDay['name'];
 export type PodDayEmojiName = PodDay['emojiName'];
+export type PodParams = {
+  maxPodEntries: Tables<'drafty_configurations'>['max_pod_entries'];
+  registrationPeriodInDays: Tables<'drafty_configurations'>['registration_period_in_days'];
+};

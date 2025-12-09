@@ -1,6 +1,6 @@
 import { Channel, ChannelType, Message, ReactionCollector } from 'discord.js';
-import { PodParams } from '../../actions/send-text-message';
 import { entryReactionsCollectorListener, ReactionParams } from '.';
+import { PodParams } from '@/types/types';
 
 export const entriesCollectingEndListener = (
   collector: ReactionCollector,

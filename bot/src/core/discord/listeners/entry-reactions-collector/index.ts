@@ -6,10 +6,9 @@ import {
   ReactionEmoji,
   User,
 } from 'discord.js';
-import { PodParams } from '../../actions/send-text-message';
 import { convertDaysToMs } from '@/helpers/computing/convert-days-to-ms';
 import { POD_HOUR } from '@/constants/drafty';
-import { PodDayName, PodDayNumber } from '@/types/types';
+import { PodDayName, PodDayNumber, PodParams } from '@/types/types';
 import { entriesCollectingEndListener } from './entries-collecting-end';
 
 export type ReactionParams = {
