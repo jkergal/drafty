@@ -42,24 +42,6 @@ export type Database = {
         }
         Relationships: []
       }
-      enrollment_messages: {
-        Row: {
-          discord_id: string
-          id: string
-          sent_at: string | null
-        }
-        Insert: {
-          discord_id: string
-          id: string
-          sent_at?: string | null
-        }
-        Update: {
-          discord_id?: string
-          id?: string
-          sent_at?: string | null
-        }
-        Relationships: []
-      }
       player_pod: {
         Row: {
           created_at: string
@@ -131,29 +113,33 @@ export type Database = {
       }
       pods: {
         Row: {
-          enrollment_message_id: string
+          created_at: string
+          deleted_at: string | null
+          enrollment_message: string
+          enrollment_message_discord_id: string
           id: string
           starts_at: string
+          updated_at: string
         }
         Insert: {
-          enrollment_message_id: string
+          created_at?: string
+          deleted_at?: string | null
+          enrollment_message: string
+          enrollment_message_discord_id: string
           id: string
           starts_at: string
+          updated_at?: string
         }
         Update: {
-          enrollment_message_id?: string
+          created_at?: string
+          deleted_at?: string | null
+          enrollment_message?: string
+          enrollment_message_discord_id?: string
           id?: string
           starts_at?: string
+          updated_at?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "pods_enrollment_message_id_fkey"
-            columns: ["enrollment_message_id"]
-            isOneToOne: false
-            referencedRelation: "enrollment_messages"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {

@@ -10,12 +10,6 @@ CREATE TABLE public.drafty_configurations (
     registration_period_in_days integer DEFAULT 11 NOT NULL
 );
 ALTER TABLE public.drafty_configurations OWNER TO postgres;
-CREATE TABLE public.enrollment_messages (
-    id uuid NOT NULL,
-    sent_at date,
-    discord_id character varying NOT NULL
-);
-ALTER TABLE public.enrollment_messages OWNER TO postgres;
 CREATE TABLE public.player_pod (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
@@ -37,14 +31,16 @@ CREATE TABLE public.players (
 ALTER TABLE public.players OWNER TO postgres;
 CREATE TABLE public.pods (
     id uuid NOT NULL,
-    enrollment_message_id uuid NOT NULL,
-    starts_at date NOT NULL
+    starts_at date NOT NULL,
+    enrollment_message text NOT NULL,
+    enrollment_message_discord_id text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    deleted_at timestamp with time zone
 );
 ALTER TABLE public.pods OWNER TO postgres;
 ALTER TABLE ONLY public.drafty_configurations
     ADD CONSTRAINT drafty_configurations_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.enrollment_messages
-    ADD CONSTRAINT enrollment_messages_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY public.player_pod
     ADD CONSTRAINT player_pod_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY public.players
@@ -57,5 +53,3 @@ ALTER TABLE ONLY public.player_pod
     ADD CONSTRAINT player_pod_player_id_fkey FOREIGN KEY (player_id) REFERENCES public.players(id);
 ALTER TABLE ONLY public.player_pod
     ADD CONSTRAINT player_pod_pod_id_fkey FOREIGN KEY (pod_id) REFERENCES public.pods(id);
-ALTER TABLE ONLY public.pods
-    ADD CONSTRAINT pods_enrollment_message_id_fkey FOREIGN KEY (enrollment_message_id) REFERENCES public.enrollment_messages(id);

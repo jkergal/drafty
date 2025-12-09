@@ -29,3 +29,14 @@ create table player_pod (
     constraint unique_player_per_pod unique (player_id, pod_id),
     constraint max_pod_per_player check (check_max_entries_per_pod(pod_id))
 );
+
+alter table pods
+        drop column enrollment_message_id,
+    add column enrollment_message text not null,
+    add column enrollment_message_discord_id text not null,
+    add created_at timestamp with time zone not null default now(),
+    add updated_at timestamp with time zone not null default now(),
+    add deleted_at timestamp with time zone;
+
+drop table enrollment_messages;
+
