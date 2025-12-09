@@ -31,12 +31,13 @@ create table player_pod (
 );
 
 alter table pods
-    drop column enrollment_message_id,
-    add column enrollment_message text not null,
-    add column enrollment_message_discord_id text not null,
+    add column created_at timestamp with time zone not null default now(),
+    add column updated_at timestamp with time zone not null default now(),
+    add column deleted_at timestamp with time zone,
+    drop column enrollment_message_id;
+
+alter table enrollment_messages
+    drop column sent_at,
     add column created_at timestamp with time zone not null default now(),
     add column updated_at timestamp with time zone not null default now(),
     add column deleted_at timestamp with time zone;
-
-drop table enrollment_messages;
-

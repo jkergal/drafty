@@ -10,6 +10,14 @@ CREATE TABLE public.drafty_configurations (
     registration_period_in_days integer DEFAULT 11 NOT NULL
 );
 ALTER TABLE public.drafty_configurations OWNER TO postgres;
+CREATE TABLE public.enrollment_messages (
+    id uuid DEFAULT extensions.uuid_generate_v4() NOT NULL,
+    discord_id character varying NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    deleted_at timestamp with time zone
+);
+ALTER TABLE public.enrollment_messages OWNER TO postgres;
 CREATE TABLE public.player_pod (
     id uuid DEFAULT extensions.uuid_generate_v4() NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
@@ -33,8 +41,6 @@ CREATE TABLE public.pods (
     id uuid DEFAULT extensions.uuid_generate_v4() NOT NULL,
     starts_at date NOT NULL,
     ends_at date NOT NULL,
-    enrollment_message text NOT NULL,
-    enrollment_message_discord_id text NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL,
     deleted_at timestamp with time zone
@@ -42,6 +48,8 @@ CREATE TABLE public.pods (
 ALTER TABLE public.pods OWNER TO postgres;
 ALTER TABLE ONLY public.drafty_configurations
     ADD CONSTRAINT drafty_configurations_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.enrollment_messages
+    ADD CONSTRAINT enrollment_messages_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY public.player_pod
     ADD CONSTRAINT player_pod_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY public.players

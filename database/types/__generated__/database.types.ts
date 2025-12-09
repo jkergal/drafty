@@ -42,6 +42,30 @@ export type Database = {
         }
         Relationships: []
       }
+      enrollment_messages: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          discord_id: string
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          discord_id: string
+          id?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          discord_id?: string
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       player_pod: {
         Row: {
           created_at: string
@@ -116,8 +140,6 @@ export type Database = {
           created_at: string
           deleted_at: string | null
           ends_at: string
-          enrollment_message: string
-          enrollment_message_discord_id: string
           id: string
           starts_at: string
           updated_at: string
@@ -126,8 +148,6 @@ export type Database = {
           created_at?: string
           deleted_at?: string | null
           ends_at: string
-          enrollment_message: string
-          enrollment_message_discord_id: string
           id?: string
           starts_at: string
           updated_at?: string
@@ -136,8 +156,6 @@ export type Database = {
           created_at?: string
           deleted_at?: string | null
           ends_at?: string
-          enrollment_message?: string
-          enrollment_message_discord_id?: string
           id?: string
           starts_at?: string
           updated_at?: string
