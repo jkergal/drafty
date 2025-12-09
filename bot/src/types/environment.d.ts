@@ -24,5 +24,6 @@ declare module NodeJS {
     ANON_KEY: string;
     SERVICE_ROLE_KEY: string;
     AUTO_REACT_ALL: string | undefined;
+    SUPABASE_URL: string;
   }
 }
