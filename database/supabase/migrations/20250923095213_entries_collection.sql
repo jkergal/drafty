@@ -5,7 +5,7 @@ alter table drafty_configurations
 drop table game_tables;
 
 create table players (
-    id uuid primary key default gen_random_uuid(),
+    id uuid default extensions.uuid_generate_v4() primary key,
     created_at timestamp with time zone not null default now(),
     updated_at timestamp with time zone not null default now(),
     deleted_at timestamp with time zone,
@@ -20,7 +20,7 @@ end;
 $$ language plpgsql;
 
 create table player_pod (
-    id uuid primary key default gen_random_uuid(),
+    id uuid default extensions.uuid_generate_v4() primary key,
     created_at timestamp with time zone not null default now(),
     updated_at timestamp with time zone not null default now(),
     deleted_at timestamp with time zone,
@@ -31,12 +31,12 @@ create table player_pod (
 );
 
 alter table pods
-        drop column enrollment_message_id,
+    drop column enrollment_message_id,
     add column enrollment_message text not null,
     add column enrollment_message_discord_id text not null,
-    add created_at timestamp with time zone not null default now(),
-    add updated_at timestamp with time zone not null default now(),
-    add deleted_at timestamp with time zone;
+    add column created_at timestamp with time zone not null default now(),
+    add column updated_at timestamp with time zone not null default now(),
+    add column deleted_at timestamp with time zone;
 
 drop table enrollment_messages;
 

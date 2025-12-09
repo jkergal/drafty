@@ -26,7 +26,7 @@ export type Database = {
           cron: string
           current_mtg_format: string
           enrollment_message_content: string
-          id: string
+          id?: string
           max_pod_entries?: number
           registration_period_in_days?: number
         }
@@ -115,6 +115,7 @@ export type Database = {
         Row: {
           created_at: string
           deleted_at: string | null
+          ends_at: string
           enrollment_message: string
           enrollment_message_discord_id: string
           id: string
@@ -124,15 +125,17 @@ export type Database = {
         Insert: {
           created_at?: string
           deleted_at?: string | null
+          ends_at: string
           enrollment_message: string
           enrollment_message_discord_id: string
-          id: string
+          id?: string
           starts_at: string
           updated_at?: string
         }
         Update: {
           created_at?: string
           deleted_at?: string | null
+          ends_at?: string
           enrollment_message?: string
           enrollment_message_discord_id?: string
           id?: string

@@ -1,6 +1,6 @@
 -- pgFormatter-ignore
 CREATE TABLE public.drafty_configurations (
-    id uuid NOT NULL,
+    id uuid DEFAULT extensions.uuid_generate_v4() NOT NULL,
     created_at date,
     enrollment_message_content character varying NOT NULL,
     checkin_message_content character varying NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE public.drafty_configurations (
 );
 ALTER TABLE public.drafty_configurations OWNER TO postgres;
 CREATE TABLE public.player_pod (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    id uuid DEFAULT extensions.uuid_generate_v4() NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL,
     deleted_at timestamp with time zone,
@@ -21,7 +21,7 @@ CREATE TABLE public.player_pod (
 );
 ALTER TABLE public.player_pod OWNER TO postgres;
 CREATE TABLE public.players (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    id uuid DEFAULT extensions.uuid_generate_v4() NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL,
     deleted_at timestamp with time zone,
@@ -30,8 +30,9 @@ CREATE TABLE public.players (
 );
 ALTER TABLE public.players OWNER TO postgres;
 CREATE TABLE public.pods (
-    id uuid NOT NULL,
+    id uuid DEFAULT extensions.uuid_generate_v4() NOT NULL,
     starts_at date NOT NULL,
+    ends_at date NOT NULL,
     enrollment_message text NOT NULL,
     enrollment_message_discord_id text NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
