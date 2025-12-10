@@ -34,7 +34,9 @@ alter table pods
     add column created_at timestamp with time zone not null default now(),
     add column updated_at timestamp with time zone not null default now(),
     add column deleted_at timestamp with time zone,
-    drop column enrollment_message_id;
+    add column pod_date timestamp with time zone not null,
+    drop column starts_at,
+    drop column ends_at;
 
 alter table enrollment_messages
     drop column sent_at,

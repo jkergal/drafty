@@ -41,7 +41,7 @@ CREATE TABLE "pods" (
     "id" uuid default extensions.uuid_generate_v4(), 
     "enrollment_message_id" UUID NOT NULL,
     "starts_at" DATE NOT NULL,
-    "ends_at" date not null,
+    "ends_at" DATE NOT NULL,
 
     CONSTRAINT "pods_pkey" PRIMARY KEY ("id")
 );

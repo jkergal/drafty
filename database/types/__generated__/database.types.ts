@@ -139,28 +139,36 @@ export type Database = {
         Row: {
           created_at: string
           deleted_at: string | null
-          ends_at: string
+          enrollment_message_id: string
           id: string
-          starts_at: string
+          pod_date: string
           updated_at: string
         }
         Insert: {
           created_at?: string
           deleted_at?: string | null
-          ends_at: string
+          enrollment_message_id: string
           id?: string
-          starts_at: string
+          pod_date: string
           updated_at?: string
         }
         Update: {
           created_at?: string
           deleted_at?: string | null
-          ends_at?: string
+          enrollment_message_id?: string
           id?: string
-          starts_at?: string
+          pod_date?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "pods_enrollment_message_id_fkey"
+            columns: ["enrollment_message_id"]
+            isOneToOne: false
+            referencedRelation: "enrollment_messages"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

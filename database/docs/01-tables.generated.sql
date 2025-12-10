@@ -39,11 +39,11 @@ CREATE TABLE public.players (
 ALTER TABLE public.players OWNER TO postgres;
 CREATE TABLE public.pods (
     id uuid DEFAULT extensions.uuid_generate_v4() NOT NULL,
-    starts_at date NOT NULL,
-    ends_at date NOT NULL,
+    enrollment_message_id uuid NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL,
-    deleted_at timestamp with time zone
+    deleted_at timestamp with time zone,
+    pod_date timestamp with time zone NOT NULL
 );
 ALTER TABLE public.pods OWNER TO postgres;
 ALTER TABLE ONLY public.drafty_configurations
@@ -62,3 +62,5 @@ ALTER TABLE ONLY public.player_pod
     ADD CONSTRAINT player_pod_player_id_fkey FOREIGN KEY (player_id) REFERENCES public.players(id);
 ALTER TABLE ONLY public.player_pod
     ADD CONSTRAINT player_pod_pod_id_fkey FOREIGN KEY (pod_id) REFERENCES public.pods(id);
+ALTER TABLE ONLY public.pods
+    ADD CONSTRAINT pods_enrollment_message_id_fkey FOREIGN KEY (enrollment_message_id) REFERENCES public.enrollment_messages(id);
