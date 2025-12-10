@@ -36,6 +36,7 @@ export const entriesCollectingEndListener = (
     }
 
     // Pod > 2
+    // @TODO: get this message from DB/
     scheduledSentMessage.channel.send(
       `------------ \n\n**ALERT - POD DU ${podDay} ${podDiscordTimestamp} ${hour} :**\n\n` +
         `2 tables de pods ont déjà été gérées par votre serviteur dévoué Drafty.\n\n` +

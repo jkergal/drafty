@@ -50,7 +50,7 @@ const enroll = async (client: Client) => {
     client,
   });
 
-  if (sentMessage === undefined || guild === undefined) return;
+  if (sentMessage === null || guild === undefined) return;
 
   const reactions = await initEnrollmentReactions(sentMessage, guild);
 
@@ -67,7 +67,7 @@ const enroll = async (client: Client) => {
 
   await openPodsRegistrationService(supabase, {
     reactions,
-    sentMessage,
+    sentMessage: sentMessage,
     checkinChannel1,
     checkinChannel2,
     maxPodEntries,

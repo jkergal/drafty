@@ -1,4 +1,4 @@
-import { Channel, Client, Message } from 'discord.js';
+import { Channel, Client } from 'discord.js';
 import { createEnrollmentMessage, createPod } from './repository';
 import { getDayOfNextfWeekDate } from '@/helpers/dates/get-day-of-next-week-timestamp';
 import { sendTextMessage } from '@/core/discord/actions/send-text-message';
@@ -7,6 +7,8 @@ import { entryReactionsCollectorListener } from '@/core/discord/listeners/entry-
 import { SupabaseClient } from '@supabase/supabase-js';
 import { POD_DAYS, POD_HOUR } from '@/constants/drafty';
 import { initEnrollmentReactions } from '@/core/discord/actions/init-enrollment-reactions';
+
+export type SentMessage = Awaited<ReturnType<typeof sendEnrollmentMessageService>>;
 
 export const sendEnrollmentMessageService = async (
   supabase: SupabaseClient,
@@ -32,13 +34,13 @@ export const sendEnrollmentMessageService = async (
     console.info('Enrollment message sent'),
   );
 
-  if (sentMessage === undefined) return;
+  if (sentMessage === undefined) return null;
 
-  await createEnrollmentMessage(supabase, {
+  const enrollmentMessage = await createEnrollmentMessage(supabase, {
     discord_id: sentMessage.id,
   });
 
-  return sentMessage;
+  return { ...enrollmentMessage, discord: sentMessage };
 };
 
 const linkPodToReactionService = async (
@@ -53,7 +55,7 @@ const linkPodToReactionService = async (
     maxPodEntries,
     registrationPeriodInDays,
   }: {
-    sentMessage: Message<true>;
+    sentMessage: NonNullable<SentMessage>;
     checkinChannel1: Channel | undefined;
     checkinChannel2: Channel | undefined;
     emojiName: string | null;
@@ -63,7 +65,7 @@ const linkPodToReactionService = async (
     registrationPeriodInDays: number;
   },
 ) => {
-  await entryReactionsCollectorListener(sentMessage, {
+  await entryReactionsCollectorListener(sentMessage.discord, {
     channel1: checkinChannel1,
     channel2: checkinChannel2,
     emojiName,
@@ -72,13 +74,13 @@ const linkPodToReactionService = async (
     dayOfTheWeek: POD_DAYS[key as keyof typeof POD_DAYS].number,
     hour: POD_HOUR,
     podDay: POD_DAYS[key as keyof typeof POD_DAYS].name,
-    podDiscordTimestamp: sentMessage.createdAt.toISOString(),
+    podDiscordTimestamp: sentMessage.discord.createdAt.toISOString(),
     podNumber,
   });
 
   return await createPod(supabase, {
-    starts_at: getDayOfNextfWeekDate(1),
-    ends_at: getDayOfNextfWeekDate(7),
+    enrollment_message_id: sentMessage.id,
+    pod_date: getDayOfNextfWeekDate(POD_DAYS[key as keyof typeof POD_DAYS].number),
   });
 };
 
@@ -93,7 +95,7 @@ export const openPodsRegistrationService = async (
     registrationPeriodInDays,
   }: {
     reactions: NonNullable<Awaited<ReturnType<typeof initEnrollmentReactions>>>;
-    sentMessage: Message<true>;
+    sentMessage: NonNullable<SentMessage>;
     checkinChannel1: Channel | undefined;
     checkinChannel2: Channel | undefined;
     maxPodEntries: number;
@@ -101,17 +103,17 @@ export const openPodsRegistrationService = async (
   },
 ) =>
   await Promise.all(
-    Object.entries(reactions).map(
-      async ([key, value], index) =>
-        await linkPodToReactionService(supabase, {
-          sentMessage,
-          checkinChannel1,
-          checkinChannel2,
-          emojiName: value.emoji.name,
-          podNumber: index + 1,
-          key,
-          maxPodEntries,
-          registrationPeriodInDays,
-        }),
-    ),
+    Object.entries(reactions).map(async ([key, value], index) => {
+      if (value === undefined) return;
+      return await linkPodToReactionService(supabase, {
+        sentMessage,
+        checkinChannel1,
+        checkinChannel2,
+        emojiName: value.emoji.name,
+        podNumber: index + 1,
+        key,
+        maxPodEntries,
+        registrationPeriodInDays,
+      });
+    }),
   );

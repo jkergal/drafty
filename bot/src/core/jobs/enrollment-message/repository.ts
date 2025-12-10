@@ -22,7 +22,8 @@ export const createEnrollmentMessage = async (
   const { data, error } = await supabase
     .from('enrollment_messages')
     .insert(params)
-    .select();
+    .select()
+    .single();
 
   if (error !== null) throw new PostgresErrorFr(error.message, error.code);
 

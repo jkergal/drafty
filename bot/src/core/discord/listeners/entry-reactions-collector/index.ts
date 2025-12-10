@@ -23,16 +23,19 @@ export type ReactionParams = {
 };
 
 export const entryReactionsCollectorListener = (
-  sentMessage: Message<true>,
+  sentDiscordMessage: Message<true>,
   params: PodParams & ReactionParams,
 ): void => {
   const { maxPodEntries, registrationPeriodInDays, emojiName, podNumber } = params;
 
   const filter = (reaction: MessageReaction, user: User) => {
-    return [emojiName].includes(reaction.emoji.name) && user.id !== sentMessage.author.id;
+    return (
+      [emojiName].includes(reaction.emoji.name) &&
+      user.id !== sentDiscordMessage.author.id
+    );
   };
 
-  const collector = sentMessage.createReactionCollector({
+  const collector = sentDiscordMessage.createReactionCollector({
     filter,
     max: maxPodEntries,
     time: convertDaysToMs(registrationPeriodInDays),
@@ -41,7 +44,7 @@ export const entryReactionsCollectorListener = (
 
   entriesCollectorListener(collector);
   removeEntryListener(collector);
-  entriesCollectingEndListener(collector, sentMessage, {
+  entriesCollectingEndListener(collector, sentDiscordMessage, {
     ...params,
     podNumber,
   });

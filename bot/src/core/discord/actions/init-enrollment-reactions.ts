@@ -1,9 +1,10 @@
-import { Guild, Message } from 'discord.js';
+import { Guild } from 'discord.js';
 import { getEmojis } from '../cache/get-emojis';
 import { ASYNC_EMOJI } from '@/constants/emojis';
+import { SentMessage } from '@/core/jobs/enrollment-message/service';
 
 export const initEnrollmentReactions = async (
-  enrollmentSentMessage: Message<true>,
+  enrollmentSentMessage: SentMessage,
   guild: Guild,
 ) => {
   const { friday, monday, saturday, sunday, thursday, tuesday, wednesday } =
@@ -21,13 +22,13 @@ export const initEnrollmentReactions = async (
     return null;
 
   return {
-    monday: await enrollmentSentMessage.react(monday),
-    tuesday: await enrollmentSentMessage.react(tuesday),
-    wednesday: await enrollmentSentMessage.react(wednesday),
-    thursday: await enrollmentSentMessage.react(thursday),
-    friday: await enrollmentSentMessage.react(friday),
-    saturday: await enrollmentSentMessage.react(saturday),
-    sunday: await enrollmentSentMessage.react(sunday),
-    sundayAsync: await enrollmentSentMessage.react(ASYNC_EMOJI),
+    monday: await enrollmentSentMessage?.discord.react(monday),
+    tuesday: await enrollmentSentMessage?.discord.react(tuesday),
+    wednesday: await enrollmentSentMessage?.discord.react(wednesday),
+    thursday: await enrollmentSentMessage?.discord.react(thursday),
+    friday: await enrollmentSentMessage?.discord.react(friday),
+    saturday: await enrollmentSentMessage?.discord.react(saturday),
+    sunday: await enrollmentSentMessage?.discord.react(sunday),
+    sundayAsync: await enrollmentSentMessage?.discord.react(ASYNC_EMOJI),
   };
 };
