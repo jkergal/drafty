@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-// dayOfWeek :  1 to 7 (1 : Monday, 7: Sunday)
+// @NOTE: dayOfWeek :  1 to 7 (1 : Monday, 7: Sunday)
 
 export const getDayOfNextfWeekDate = (dayOfWeek: number) =>
   computeDayOfNextWeek(dayOfWeek).format('YYYY-MM-DD');
