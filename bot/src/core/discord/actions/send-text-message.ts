@@ -1,9 +1,15 @@
 import { Channel, ChannelType } from 'discord.js';
 
-export const sendTextMessage = (channel: Channel | undefined, message: string, callback: () => void) => {
+export const sendTextMessage = async (
+  channel: Channel | undefined,
+  message: string,
+  callback?: () => void,
+) => {
   if (channel?.type === ChannelType.GuildText) {
-    channel.send({ content: message }).then(async () => {
-      callback();
+    return await channel.send({ content: message }).then(async (sentMessage) => {
+      if (callback) callback();
+
+      return sentMessage;
     });
   }
 };

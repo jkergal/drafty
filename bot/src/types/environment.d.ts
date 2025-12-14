@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/prefer-namespace-keyword */
 declare module NodeJS {
   export interface ProcessEnv {
-    NODE_ENV: string;
+    NODE_ENV: string | undefined;
     GUILD_ID: string;
     ENROLLMENTS_CHANNEL: string;
-    CHECKIN_1_CHANNEL: string;
-    CHECKIN_2_CHANNEL: string;
+    CHECKIN_CHANNEL_1: string;
+    CHECKIN_CHANNEL_2: string;
     CHECKIN_ASYNC_CHANNEL: string;
     TUTORIAL_CHANNEL: string;
     MONDAY_EMOJI: string;
@@ -23,5 +23,7 @@ declare module NodeJS {
     JWT_SECRET: string;
     ANON_KEY: string;
     SERVICE_ROLE_KEY: string;
+    AUTO_REACT_ALL: string | undefined;
+    SUPABASE_URL: string;
   }
 }

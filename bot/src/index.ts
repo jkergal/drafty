@@ -1,10 +1,8 @@
+import '@/env';
 import { Client, IntentsBitField } from 'discord.js';
-import interactionCreate from './core/discord/listeners/interaction-create';
 import { startEnrollmentMessageJob } from './core/jobs/enrollment-message/enrollment-message.job';
 import ready from './core/discord/listeners/ready';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
+import { interactionCreateListener } from './core/discord/listeners/interaction-create';
 
 const token = process.env.DISCORD_BOT_TOKEN;
 
@@ -24,4 +22,4 @@ ready(client, async () => {
   startEnrollmentMessageJob(client);
 });
 
-interactionCreate(client);
+interactionCreateListener(client);

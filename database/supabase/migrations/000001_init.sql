@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "drafty_configurations" (
-    "id" UUID NOT NULL,
+    "id" uuid default extensions.uuid_generate_v4(), 
     "created_at" DATE,
     "enrollment_message_content" VARCHAR NOT NULL,
     "checkin_message_content" VARCHAR NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE "drafty_configurations" (
 
 -- CreateTable
 CREATE TABLE "enrollment_messages" (
-    "id" UUID NOT NULL,
+    "id" uuid default extensions.uuid_generate_v4(), 
     "sent_at" DATE,
     "discord_id" VARCHAR NOT NULL,
 
@@ -21,7 +21,7 @@ CREATE TABLE "enrollment_messages" (
 
 -- CreateTable
 CREATE TABLE "game_tables" (
-    "id" UUID NOT NULL,
+    "id" uuid default extensions.uuid_generate_v4(), 
     "pod_id" UUID NOT NULL,
     "completed_at" DATE,
     "player_1_discord_id" VARCHAR,
@@ -38,9 +38,10 @@ CREATE TABLE "game_tables" (
 
 -- CreateTable
 CREATE TABLE "pods" (
-    "id" UUID NOT NULL,
+    "id" uuid default extensions.uuid_generate_v4(), 
     "enrollment_message_id" UUID NOT NULL,
     "starts_at" DATE NOT NULL,
+    "ends_at" DATE NOT NULL,
 
     CONSTRAINT "pods_pkey" PRIMARY KEY ("id")
 );

@@ -1,1 +1,1 @@
-export const ASYNC_EMOJI = ':alarm_clock:';
+export const ASYNC_EMOJI = '⏰';

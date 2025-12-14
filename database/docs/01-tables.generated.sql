@@ -1,48 +1,70 @@
 -- pgFormatter-ignore
 CREATE TABLE public.drafty_configurations (
-    id uuid NOT NULL,
+    id uuid DEFAULT extensions.uuid_generate_v4() NOT NULL,
     created_at date,
     enrollment_message_content character varying NOT NULL,
     checkin_message_content character varying NOT NULL,
     cron character varying NOT NULL,
-    current_mtg_format character varying NOT NULL
+    current_mtg_format character varying NOT NULL,
+    max_pod_entries integer DEFAULT 8 NOT NULL,
+    registration_period_in_days integer DEFAULT 11 NOT NULL
 );
 ALTER TABLE public.drafty_configurations OWNER TO postgres;
 CREATE TABLE public.enrollment_messages (
-    id uuid NOT NULL,
-    sent_at date,
-    discord_id character varying NOT NULL
+    id uuid DEFAULT extensions.uuid_generate_v4() NOT NULL,
+    discord_id character varying NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    deleted_at timestamp with time zone
 );
 ALTER TABLE public.enrollment_messages OWNER TO postgres;
-CREATE TABLE public.game_tables (
-    id uuid NOT NULL,
+CREATE TABLE public.player_pod (
+    id uuid DEFAULT extensions.uuid_generate_v4() NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    deleted_at timestamp with time zone,
+    player_id uuid NOT NULL,
     pod_id uuid NOT NULL,
-    completed_at date,
-    player_1_discord_id character varying,
-    player_2_discord_id character varying,
-    player_3_discord_id character varying,
-    player_4_discord_id character varying,
-    player_5_discord_id character varying,
-    player_6_discord_id character varying,
-    player_7_discord_id character varying,
-    player_8_discord_id character varying
+    CONSTRAINT max_pod_per_player CHECK (public.check_max_entries_per_pod(pod_id))
 );
-ALTER TABLE public.game_tables OWNER TO postgres;
+ALTER TABLE public.player_pod OWNER TO postgres;
+CREATE TABLE public.players (
+    id uuid DEFAULT extensions.uuid_generate_v4() NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    deleted_at timestamp with time zone,
+    discord_username text NOT NULL,
+    discord_id text NOT NULL,
+    discord_tag text NOT NULL
+);
+ALTER TABLE public.players OWNER TO postgres;
 CREATE TABLE public.pods (
-    id uuid NOT NULL,
+    id uuid DEFAULT extensions.uuid_generate_v4() NOT NULL,
     enrollment_message_id uuid NOT NULL,
-    starts_at date NOT NULL
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    deleted_at timestamp with time zone,
+    pod_date timestamp with time zone NOT NULL,
+    reaction_emoji_name text NOT NULL
 );
 ALTER TABLE public.pods OWNER TO postgres;
 ALTER TABLE ONLY public.drafty_configurations
     ADD CONSTRAINT drafty_configurations_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY public.enrollment_messages
     ADD CONSTRAINT enrollment_messages_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.game_tables
-    ADD CONSTRAINT game_tables_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.player_pod
+    ADD CONSTRAINT player_pod_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.players
+    ADD CONSTRAINT players_discord_id_key UNIQUE (discord_id);
+ALTER TABLE ONLY public.players
+    ADD CONSTRAINT players_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY public.pods
     ADD CONSTRAINT pods_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.game_tables
-    ADD CONSTRAINT game_tables_pod_id_fkey FOREIGN KEY (pod_id) REFERENCES public.pods(id);
+ALTER TABLE ONLY public.player_pod
+    ADD CONSTRAINT unique_player_per_pod UNIQUE (player_id, pod_id);
+ALTER TABLE ONLY public.player_pod
+    ADD CONSTRAINT player_pod_player_id_fkey FOREIGN KEY (player_id) REFERENCES public.players(id);
+ALTER TABLE ONLY public.player_pod
+    ADD CONSTRAINT player_pod_pod_id_fkey FOREIGN KEY (pod_id) REFERENCES public.pods(id);
 ALTER TABLE ONLY public.pods
     ADD CONSTRAINT pods_enrollment_message_id_fkey FOREIGN KEY (enrollment_message_id) REFERENCES public.enrollment_messages(id);
