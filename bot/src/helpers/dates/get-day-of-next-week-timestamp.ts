@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 export const getDayOfNextfWeekDate = (dayOfWeek: number) =>
   computeDayOfNextWeek(dayOfWeek).format('YYYY-MM-DD');
 
-export const getDayOfNextfWeekTimestamp = (dayOfWeek: number) =>
+export const getDayOfNextWeekTimestamp = (dayOfWeek: number) =>
   computeDayOfNextWeek(dayOfWeek).unix();
 
 const computeDayOfNextWeek = (dayOfWeek: number) => {
