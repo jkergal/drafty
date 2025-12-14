@@ -9,15 +9,16 @@ create table players (
     created_at timestamp with time zone not null default now(),
     updated_at timestamp with time zone not null default now(),
     deleted_at timestamp with time zone,
-    name text not null,
-    discord_id text not null
+    discord_username text not null,
+    discord_id text not null unique,
+    discord_tag text not null
 );
 
-create or replace function check_max_entries_per_pod(pod_id uuid) returns boolean as $$
-begin
-    return (select count(*) from player_pod where player_pod.pod_id = pod_id) <= 8;
-end;
-$$ language plpgsql;
+create or replace function check_max_entries_per_pod(_pod_id uuid) returns boolean as $$
+    begin
+        return (select count(*) from player_pod where player_pod.pod_id = _pod_id) <= 8;
+    end;
+    $$ language plpgsql;
 
 create table player_pod (
     id uuid default extensions.uuid_generate_v4() primary key,
@@ -35,6 +36,7 @@ alter table pods
     add column updated_at timestamp with time zone not null default now(),
     add column deleted_at timestamp with time zone,
     add column pod_date timestamp with time zone not null,
+    add column reaction_emoji_name text not null,
     drop column starts_at,
     drop column ends_at;
 

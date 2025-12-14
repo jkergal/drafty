@@ -1,11 +1,12 @@
 import { Channel, ChannelType, Message, ReactionCollector } from 'discord.js';
 import { entryReactionsCollectorListener, ReactionParams } from '.';
 import { PodParams } from '@/types/types';
+import { TPods } from '@database/types/__generated__/main.types';
 
-export const entriesCollectingEndListener = (
+export const entriesCollectingEndListener = async (
   collector: ReactionCollector,
   scheduledSentMessage: Message<true>,
-  params: PodParams & ReactionParams & { podNumber: number },
+  params: PodParams & ReactionParams & { podNumber: number; podId: TPods['id'] },
 ) => {
   collector.on('end', (_, reason) => {
     const { channel1, channel2, hour, podDay, podDiscordTimestamp, podNumber } = params;
@@ -32,7 +33,7 @@ export const entriesCollectingEndListener = (
         `⚪️ Entries array for the Pod number ${podNumber} successfully cleared`,
       );
 
-      return entryReactionsCollectorListener(scheduledSentMessage, params);
+      return void entryReactionsCollectorListener(scheduledSentMessage, params);
     }
 
     // Pod > 2
@@ -45,6 +46,6 @@ export const entriesCollectingEndListener = (
         `ainsi que les channels associés, puis postez un message de check-in un peu comme je le fais d'habitude !`,
     );
 
-    entryReactionsCollectorListener(scheduledSentMessage, params);
+    void entryReactionsCollectorListener(scheduledSentMessage, params);
   });
 };

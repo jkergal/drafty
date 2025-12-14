@@ -113,24 +113,27 @@ export type Database = {
           created_at: string
           deleted_at: string | null
           discord_id: string
+          discord_tag: string
+          discord_username: string
           id: string
-          name: string
           updated_at: string
         }
         Insert: {
           created_at?: string
           deleted_at?: string | null
           discord_id: string
+          discord_tag: string
+          discord_username: string
           id?: string
-          name: string
           updated_at?: string
         }
         Update: {
           created_at?: string
           deleted_at?: string | null
           discord_id?: string
+          discord_tag?: string
+          discord_username?: string
           id?: string
-          name?: string
           updated_at?: string
         }
         Relationships: []
@@ -142,6 +145,7 @@ export type Database = {
           enrollment_message_id: string
           id: string
           pod_date: string
+          reaction_emoji_name: string
           updated_at: string
         }
         Insert: {
@@ -150,6 +154,7 @@ export type Database = {
           enrollment_message_id: string
           id?: string
           pod_date: string
+          reaction_emoji_name: string
           updated_at?: string
         }
         Update: {
@@ -158,6 +163,7 @@ export type Database = {
           enrollment_message_id?: string
           id?: string
           pod_date?: string
+          reaction_emoji_name?: string
           updated_at?: string
         }
         Relationships: [
@@ -176,7 +182,7 @@ export type Database = {
     }
     Functions: {
       check_max_entries_per_pod: {
-        Args: { pod_id: string }
+        Args: { _pod_id: string }
         Returns: boolean
       }
     }

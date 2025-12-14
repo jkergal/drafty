@@ -33,8 +33,9 @@ CREATE TABLE public.players (
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL,
     deleted_at timestamp with time zone,
-    name text NOT NULL,
-    discord_id text NOT NULL
+    discord_username text NOT NULL,
+    discord_id text NOT NULL,
+    discord_tag text NOT NULL
 );
 ALTER TABLE public.players OWNER TO postgres;
 CREATE TABLE public.pods (
@@ -43,7 +44,8 @@ CREATE TABLE public.pods (
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL,
     deleted_at timestamp with time zone,
-    pod_date timestamp with time zone NOT NULL
+    pod_date timestamp with time zone NOT NULL,
+    reaction_emoji_name text NOT NULL
 );
 ALTER TABLE public.pods OWNER TO postgres;
 ALTER TABLE ONLY public.drafty_configurations
@@ -52,6 +54,8 @@ ALTER TABLE ONLY public.enrollment_messages
     ADD CONSTRAINT enrollment_messages_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY public.player_pod
     ADD CONSTRAINT player_pod_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.players
+    ADD CONSTRAINT players_discord_id_key UNIQUE (discord_id);
 ALTER TABLE ONLY public.players
     ADD CONSTRAINT players_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY public.pods

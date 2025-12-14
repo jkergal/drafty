@@ -58,14 +58,21 @@ const linkPodToReactionService = async (
     sentMessage: NonNullable<SentMessage>;
     checkinChannel1: Channel | undefined;
     checkinChannel2: Channel | undefined;
-    emojiName: string | null;
+    emojiName: string;
     podNumber: number;
     key: string;
     maxPodEntries: number;
     registrationPeriodInDays: number;
   },
 ) => {
+  const createdPod = await createPod(supabase, {
+    enrollment_message_id: sentMessage.id,
+    reaction_emoji_name: emojiName,
+    pod_date: getDayOfNextfWeekDate(POD_DAYS[key as keyof typeof POD_DAYS].number),
+  });
+
   await entryReactionsCollectorListener(sentMessage.discord, {
+    podId: createdPod.id,
     channel1: checkinChannel1,
     channel2: checkinChannel2,
     emojiName,
@@ -76,11 +83,6 @@ const linkPodToReactionService = async (
     podDay: POD_DAYS[key as keyof typeof POD_DAYS].name,
     podDiscordTimestamp: sentMessage.discord.createdAt.toISOString(),
     podNumber,
-  });
-
-  return await createPod(supabase, {
-    enrollment_message_id: sentMessage.id,
-    pod_date: getDayOfNextfWeekDate(POD_DAYS[key as keyof typeof POD_DAYS].number),
   });
 };
 
@@ -104,7 +106,7 @@ export const openPodsRegistrationService = async (
 ) =>
   await Promise.all(
     Object.entries(reactions).map(async ([key, value], index) => {
-      if (value === undefined) return;
+      if (value?.emoji.name == null) return;
       return await linkPodToReactionService(supabase, {
         sentMessage,
         checkinChannel1,
