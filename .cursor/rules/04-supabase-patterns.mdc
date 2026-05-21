@@ -1,0 +1,53 @@
+---
+description: Supabase patterns — requêtes, erreurs, types, soft-delete
+globs:
+  - "bot/src/core/**/repository.ts"
+  - "bot/src/database/**/*.ts"
+  - "database/**/*.ts"
+alwaysApply: false
+---
+
+# Supabase Patterns
+
+## 1. Découverte du Schéma (Agent Rule)
+- Avant d'écrire ou de modifier une requête Supabase, **vérifie toujours les colonnes exactes** dans `database/types/__generated__/database.types.ts`. Ne devine pas les noms de colonnes.
+
+## 2. Structure standard d'une requête repository
+```ts
+// ✅ Pattern obligatoire
+export const addPodEntry = async (
+  supabase: SupabaseClient<Database>,
+  params: TablesInsert<'player_pod'>,
+) => {
+  const { data, error } = await supabase
+    .from('player_pod')
+    .insert(params)
+    .select('id')
+    .single();
+
+  if (error !== null) throw new PostgresErrorFr(error.message, error.code);
+
+  return objectToCamel(data); // Toujours convertir en camelCase
+};
+```
+
+## 3. Règles strictes
+- Toujours `objectToCamel()` sur les retours DB (snake_case → camelCase).
+- Toujours vérifier `error !== null` avant d'accéder à `data`.
+- Utiliser `.single()` uniquement si exactement 1 résultat est garanti.
+- Ne jamais écrire de types Supabase manuellement (utiliser `TablesInsert`, `TPods`, etc.).
+
+## 4. Soft-delete & Upsert
+- **Jamais de DELETE SQL** sur les données métier (ex: `player_pod`). Utiliser un `UPDATE` sur `deleted_at`.
+```ts
+// ✅ Soft-delete
+await supabase.from('player_pod').update({ deleted_at: toDbDate(new Date()) }).eq('player_id', playerId).is('deleted_at', null);
+```
+- **Upsert :** Toujours spécifier la contrainte de conflit (`onConflict`).
+```ts
+await supabase.from('players').upsert(params, { onConflict: 'discord_id' }).select().single();
+```
+
+## 5. Gestion d'erreurs DB
+- Les repositories throwent toujours `PostgresErrorFr`.
+- Mapper les contraintes DB spécifiques à Drafty (`unique_player_per_pod`, etc.) dans `SUPABASE_ERROR_KEYS`.

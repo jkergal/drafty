@@ -1,0 +1,50 @@
+---
+description: TypeScript strict — conventions, anti-patterns et gestion des types
+globs:
+  - "**/*.ts"
+  - "**/*.tsx"
+alwaysApply: false
+---
+
+# TypeScript Strict
+
+## 1. Rigueur Typage (Agent Rules)
+- **Interdiction formelle** d'utiliser `@ts-ignore`, `@ts-expect-error` ou `// eslint-disable-next-line @typescript-eslint/no-explicit-any`. Si une erreur de type survient, analyse les interfaces et résous le vrai problème.
+- Pas de `any` — ni explicite, ni via cast (`as any`).
+- Pas d'`enum` — utiliser `const` objects ou `as const`.
+- En cas de doute sur le typage d'une table, utilise l'outil de lecture sur `@database/types/__generated__/main.types` ou `database.types.ts`.
+
+## 2. Imports
+- Toujours utiliser les alias path : `@/*` → `bot/src/`, `@database/*` → `database/`.
+- Ne jamais utiliser de chemins relatifs profonds (`../../`).
+
+## 3. Async / Await
+- Ne pas marquer `async` une fonction qui ne contient pas d'`await` réel.
+```ts
+// ❌
+export const createSupabaseClient = async () => createClient<Database>(...);
+// ✅
+export const createSupabaseClient = () => createClient<Database>(...);
+```
+- Attention aux callbacks : si la fonction conteneur n'est pas async, utiliser une IIFE async à l'intérieur.
+
+## 4. Null Safety et Tableaux
+- Toujours vérifier l'existence avant d'accéder à un index.
+```ts
+// ❌
+return objectToCamel(data[0]);
+// ✅
+if (!data?.[0]) throw new Error('drafty_configurations is empty');
+return objectToCamel(data[0]);
+```
+
+## 5. Promises
+- Toujours attacher un `.catch()` aux Promises "fire-and-forget" (ex: envois de messages Discord).
+```ts
+channel.send('pod1 OK').catch((err: unknown) => console.error('Check-in send failed:', err));
+```
+
+## 6. Nommage
+- Pas de typo dans les noms de fonctions.
+- Booleens : préfixes `is`, `has`, `should`, `can`.
+- Fonctions : verbes d'action (`get`, `create`, `add`, `delete`, `send`, `hydrate`, `format`), ou ce qui est estimé comme pertinent selon le besoin et les bonnes pratiques clean code.

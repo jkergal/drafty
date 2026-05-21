@@ -1,0 +1,46 @@
+---
+description: Architecture du monorepo Drafty — couches, responsabilités, où créer quoi
+globs:
+  - "bot/src/**/*.ts"
+  - "database/**/*.ts"
+alwaysApply: false
+---
+
+# Architecture Drafty
+
+## 1. Structure du monorepo
+```
+drafty/
+├── bot/src/          ← package Discord bot
+└── database/         ← package Supabase (schéma, migrations, types générés)
+```
+
+## 2. Navigation pour l'Agent
+Si tu dois modifier une fonctionnalité, voici comment te repérer :
+- **Logique métier / Orchestration** → `core/<module>/service.ts`
+- **Requêtes Base de données** → `core/<module>/repository.ts`
+- **Événements Discord (on message, on reaction)** → `core/discord/listeners/`
+- **Actions Discord (send, react)** → `core/discord/actions/`
+- **Fonctions pures (calculs, dates)** → `helpers/`
+
+## 3. Responsabilités strictes
+| Couche | Règle absolue |
+|--------|---------------|
+| `repository.ts` | Reçoit `SupabaseClient<Database>` en paramètre. **Zéro logique métier.** |
+| `service.ts` | Appelle repository + actions. **Zéro appel API Discord direct.** |
+| `listeners/` | Branche sur les événements. Délègue immédiatement au service/repository. |
+| `actions/` | Encapsule `message.send()`, `message.react()`, etc. |
+| `helpers/` | Aucun effet de bord. Aucun import Discord ou Supabase. |
+
+## 4. Injection de dépendances
+- Le client Supabase doit toujours être **injecté** dans les repositories, jamais instancié à l'intérieur.
+```ts
+// ✅
+export const addPlayer = async (supabase: SupabaseClient<Database>, params: TablesInsert<'players'>) => { ... };
+```
+
+## 5. Création de nouveaux modules
+1. Vérifie d'abord si un module existant dans `core/` ne correspond pas au besoin.
+2. Si nouveau module : Créer `core/<feature>/`.
+3. Toujours commencer par `repository.ts` (accès DB), puis `service.ts` (logique).
+4. Les helpers du module vont dans `core/<feature>/_helpers/`.

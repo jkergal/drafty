@@ -1,0 +1,28 @@
+---
+description: GitHub Actions CI — patterns et conventions pour bot.yml et database.yml
+globs:
+  - ".github/**/*.yml"
+alwaysApply: false
+---
+
+# CI / GitHub Actions
+
+## 1. Règle Agent : Debugging CI
+- Si l'utilisateur te demande de corriger une erreur CI, **demande-lui toujours les logs d'erreur exacts** avant de modifier aveuglément les fichiers `.yml`.
+- Vérifie si l'erreur provient du code (lint/test) ou de la configuration du workflow.
+
+## 2. Structure du CI
+- `bot.yml` : lint + test + prettier + build (déclenché sur `bot/`).
+- `database.yml` : génère les types + vérifie le build (déclenché sur `database/supabase/migrations/`).
+- Utilisation d'actions composites dans `.github/actions/` (`install-pnpm`, `install-dependencies`, `install-supabase`).
+
+## 3. Règles strictes
+- **Un seul install :** Dans un monorepo pnpm, un seul `pnpm install` à la racine suffit. Ne pas faire d'install redondant dans les sous-dossiers.
+- **Frozen lockfile :** Toujours utiliser `pnpm install --frozen-lockfile` en CI pour garantir la reproductibilité.
+- **Fichiers générés :** Ne jamais modifier manuellement `database.types.ts` ou `*.generated.sql`. Ils sont auto-committés par la CI.
+
+## 4. Déclencheurs
+- Les workflows ne doivent pas se déclencher sur les drafts PR :
+```yaml
+if: ${{ github.event_name == 'push' || !github.event.pull_request.draft }}
+```
