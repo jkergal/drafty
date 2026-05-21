@@ -19,19 +19,29 @@ alwaysApply: false
 ## 3. Commits — Conventional Commits
 Format : `<type>(scope optionnel): <description en minuscules>`
 
-| Type | Usage |
-|------|-------|
+Le hook `commit-msg` valide le format automatiquement — respecter la liste ci-dessous.
+
+| Type | Description |
+|------|-------------|
 | `feat` | Nouvelle fonctionnalité |
 | `fix` | Correction de bug |
+| `docs` | Documentation uniquement |
+| `style` | Formatage, espaces, points-virgules — aucun changement de logique |
 | `refactor` | Refactoring sans changement de comportement |
-| `test` | Ajout ou modification de tests |
-| `chore` | Maintenance (scripts, configs mineures) |
+| `perf` | Amélioration de performance |
+| `test` | Ajout ou correction de tests |
+| `build` | Dépendances, système de build (pnpm, webpack…) |
+| `ci` | Fichiers et scripts CI/CD |
+| `chore` | Maintenance — ne modifie ni `src/` ni les tests |
+| `revert` | Annulation d'un commit précédent |
 
 Exemples :
 ```
 feat(enrollment): add checkin message content from DB
 fix(collector): add missing .catch() on pod channel send
 chore(database): update generated types
+ci(bot): add lint step to PR workflow
+docs(readme): fix pnpm version and docker urls
 ```
 
 ## 4. Branches
