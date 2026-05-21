@@ -1,0 +1,67 @@
+---
+description: Clean Code — principes qualité, early returns, gestion d'erreurs
+globs:
+  - "**/*.ts"
+alwaysApply: false
+---
+
+# Clean Code
+
+## 1. Responsabilité unique & Early Returns
+- Chaque fonction fait une chose. Si le nom contient "and", scinde-la.
+- **Early returns :** Privilégie les retours anticipés pour éviter l'imbrication profonde (nesting).
+```ts
+// ✅ Early return
+if (!isValid) return;
+// suite de la logique
+```
+
+## 2. Code mort & Commentaires
+- **Zéro code mort :** Ne laisse jamais de code commenté, de variables non utilisées ou de `eslint-disable` globaux. Supprime le code inutile.
+- **Commentaires :** N'explique pas *ce que* fait le code (le code doit être assez clair). Explique *pourquoi* un choix technique non évident a été fait.
+- **Tout commentaire doit porter un tag `@`** parmi les suivants :
+
+| Tag | Usage |
+|-----|-------|
+| `@NOTE` | Information contextuelle importante à retenir |
+| `@WARNING` | Risque de régression, effet de bord, comportement contre-intuitif |
+| `@TODO` | Travail à faire ultérieurement (contexte obligatoire) |
+| `@FIXME` | Code cassé ou partiellement fonctionnel à corriger |
+| `@HACK` | Contournement temporaire non idéal — justifier pourquoi |
+| `@DEPRECATED` | Ne plus utiliser — indiquer le remplaçant si disponible |
+
+```ts
+// ✅
+// @NOTE: Discord cache les emojis au démarrage, résoudre après le ready event
+// @WARNING: supprimer cette ligne casse la rétro-compatibilité avec soldiers.js
+// @TODO: récupérer les player_pod depuis la DB pour tagger les joueurs dans le check-in
+// @FIXME: le collector ne gère pas le cas où le pod_id est null
+// @HACK: on passe un tableau vide pour contourner un bug discord.js v14.14
+// @DEPRECATED: utiliser hydrateEnrollmentMessage à la place
+```
+
+## 3. Gestion d'erreurs
+- Pas de `catch` silencieux.
+- Les **repositories** throwent toujours des erreurs typées (`throw new PostgresErrorFr(...)`).
+- Les **listeners** et **services** catch et loggent (`console.error`).
+```ts
+// ✅
+try {
+  await addPodEntry(supabase, params);
+} catch (error) {
+  console.error('Failed to add pod entry:', error);
+}
+```
+
+## 4. TODOs actionnables
+- Un `@TODO` doit toujours avoir un **contexte clair** décrivant ce qui reste à faire. Pas de numéro d'issue.
+```ts
+// ✅
+// @TODO: envoyer un message d'erreur à l'utilisateur Discord si le pod est introuvable
+```
+
+## 5. Conventions de nommage
+- Fichiers : `kebab-case.ts`
+- Fonctions : `camelCase` avec verbe d'action
+- Types/interfaces : `PascalCase`
+- Constantes globales : `UPPER_SNAKE_CASE`

@@ -1,0 +1,64 @@
+---
+description: Conventions git — Conventional Commits, nommage de branches, règles de merge
+globs:
+  - "*"
+alwaysApply: false
+---
+
+# Conventions Git
+
+## 1. Règle Agent : Interdiction des actions git en écriture
+- **L'agent ne doit jamais exécuter de commande git en écriture** : pas de `git commit`, `git push`, `git merge`, `git rebase`, `git tag`, ni d'appel `gh` qui modifie le dépôt.
+- Seules les commandes de **lecture** sont autorisées : `git status`, `git log`, `git diff`.
+- Cette règle est aussi rappelée dans `00-agent-workflow` §6. En cas de doute, `00-agent-workflow` fait foi.
+- **L'humain est seul responsable** de valider et pousser les changements.
+
+## 2. Règle Agent : Proposition de Commits
+- Quand tu proposes un message de commit à l'utilisateur, **ne génère que le message brut** dans un bloc de code — sans la commande `git commit -m`, sans guillemets wrappants, sans aucun texte autour.
+- L'objectif est que l'utilisateur puisse copier le contenu du bloc tel quel et le passer lui-même à `git commit -m`.
+
+**Correct :**
+```
+ci(bot): always report workflow check, skip heavy steps on doc-only changes
+```
+
+**Interdit :**
+```bash
+git commit -m "ci(bot): always report workflow check, skip heavy steps on doc-only changes"
+```
+
+## 3. Commits — Conventional Commits
+Format : `<type>(scope optionnel): <description en minuscules>`
+
+Le hook `commit-msg` valide le format automatiquement — respecter la liste ci-dessous.
+
+| Type | Description |
+|------|-------------|
+| `feat` | Nouvelle fonctionnalité |
+| `fix` | Correction de bug |
+| `docs` | Documentation uniquement |
+| `style` | Formatage, espaces, points-virgules — aucun changement de logique |
+| `refactor` | Refactoring sans changement de comportement |
+| `perf` | Amélioration de performance |
+| `test` | Ajout ou correction de tests |
+| `build` | Dépendances, système de build (pnpm, webpack…) |
+| `ci` | Fichiers et scripts CI/CD |
+| `chore` | Maintenance — ne modifie ni `src/` ni les tests |
+| `revert` | Annulation d'un commit précédent |
+
+Exemples :
+```
+feat(enrollment): add checkin message content from DB
+fix(collector): add missing .catch() on pod channel send
+chore(database): update generated types
+ci(bot): add lint step to PR workflow
+docs(readme): fix pnpm version and docker urls
+```
+
+## 4. Branches
+Format : `<initiales>/<type>/<description-courte-kebab-case>`
+Exemple : `jk/feat/checkin-message-from-db`
+
+## 5. Règles de merge & Fichiers ignorés
+- Squash merge uniquement sur `main` — historique linéaire.
+- Ne jamais committer : `.env`, `database/types/__generated__/` (géré par CI), `dist/`, `node_modules/`.

@@ -1,0 +1,91 @@
+---
+description: Tests Jest + ts-jest — conventions, structure, mocking Supabase
+globs:
+  - "**/*.test.ts"
+  - "**/*.spec.ts"
+alwaysApply: false
+---
+
+# Tests Jest
+
+## 1. Règle Agent : S'inspirer de l'existant et lancer les tests
+- Avant de créer un mock complexe, **lis les autres fichiers `.test.ts`** de la codebase pour calquer exactement le style de mocking (surtout pour Supabase).
+- Après avoir écrit ou modifié un test, **lance toi-même les tests** des fichiers que tu as touchés (pas l'ensemble du projet) :
+```bash
+# Depuis bot/
+pnpm test -- chemin/vers/fichier.test.ts
+# Plusieurs fichiers
+pnpm test -- chemin/vers/a.test.ts chemin/vers/b.test.ts
+```
+- Corrige toute erreur de test avant de rendre la main. Ne demande pas à l'utilisateur de le faire.
+
+## 2. Ordre de priorité de couverture
+1. `helpers/` (fonctions pures)
+2. `core/data/` et `core/discord/listeners/*/repository.ts` (mocker Supabase)
+3. `core/jobs/*/service.ts` (mocker repository + actions)
+
+## 3. Structure des describe/it
+- Le `describe` de **premier niveau** doit correspondre au **nom du fichier testé** (sans extension).
+- Chaque fonction testée dans le fichier est dans son propre `describe` imbriqué.
+- Le label des sous-`describe` correspond **exactement** à l'appel réel ou au contexte.
+```ts
+// ✅ Structure obligatoire (AAA)
+describe('nom-du-fichier', () => {
+  describe('nomDeLaFonction', () => {
+    describe('when <condition précise>', () => {
+      it('should <comportement attendu>', () => {
+        // Arrange
+        // Act
+        // Assert
+      });
+    });
+  });
+
+  describe('autreFunction', () => {
+    // ...
+  });
+});
+```
+
+## 4. Mocking Supabase
+```ts
+import { createSupabaseClient } from '@/database/supabase';
+jest.mock('@/database/supabase');
+
+const mockSelect = jest.fn();
+const mockFrom = jest.fn(() => ({ select: mockSelect }));
+const mockSupabase = { from: mockFrom } as unknown as SupabaseClient<Database>;
+(createSupabaseClient as jest.Mock).mockReturnValue(mockSupabase);
+```
+
+## 5. Fixtures partagées
+Les données réutilisées dans **plusieurs** fichiers de test doivent être centralisées dans `bot/src/__tests__/fixtures/`.
+
+### Règles
+- Ne crée une fixture que si la donnée est **réutilisée dans au moins deux fichiers de test**. Pour des données uniques à un test, hardcode directement dans le fichier.
+- L'agent crée ou met à jour les fixtures **au moment où il en a besoin**, pas en anticipation.
+- Chaque fixture est une constante ou un factory function si des variantes sont nécessaires.
+
+```ts
+// bot/src/__tests__/fixtures/pods.ts
+import type { TPods } from '@database/types/__generated__/main.types';
+
+export const aPod = (overrides: Partial<TPods> = {}): TPods => ({
+  id: 'pod-uuid-1',
+  enrollment_message_id: 'enrollment-uuid-1',
+  pod_date: '2026-05-26T19:00:00Z',
+  reaction_emoji_name: 'l_letter',
+  created_at: '2026-05-21T00:00:00Z',
+  updated_at: '2026-05-21T00:00:00Z',
+  deleted_at: null,
+  ...overrides,
+});
+```
+
+- Exporte tout depuis `bot/src/__tests__/fixtures/index.ts` (barrel).
+- Pour les constantes statiques (sans variantes), exporte directement une valeur typée.
+
+## 6. Configuration
+- Lancer les tests depuis `bot/` : `pnpm test`.
+- `clearMocks: true` est global, pas besoin de `jest.clearAllMocks()`.
+- Ne pas tester les types TypeScript.

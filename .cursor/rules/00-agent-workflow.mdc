@@ -1,0 +1,40 @@
+---
+description: Workflow agent — comment explorer, agir et communiquer sur Drafty
+alwaysApply: true
+---
+
+# Workflow agent sur Drafty
+
+## 1. Exploration et Contexte (CRITIQUE)
+- **Ne devine jamais.** Utilise `SemanticSearch`, `Grep` ou `Glob` pour trouver les fichiers.
+- Lis toujours les fichiers concernés **et leurs imports directs** avant toute modification.
+- Si la tâche touche la DB → lis `database/types/__generated__/database.types.ts` pour connaître les types exacts.
+- Si la tâche touche un module existant → lis tout le dossier du module (`repository.ts`, `service.ts`, helpers).
+
+## 2. Périmètre et Autonomie
+- **Périmètre strict :** Ne corrige que ce qui a été explicitement demandé. Si un bug adjacent est détecté, signale-le à l'humain sans le corriger (sauf si bloquant pour la tâche).
+- **Pas de refactoring sauvage :** Ne refactore pas du code non lié à la tâche. Préfère étendre un fichier existant plutôt que d'en créer un nouveau, sauf si l'architecture l'exige.
+- **Autonomie sur les erreurs :** Si tes modifications introduisent des erreurs TypeScript ou ESLint, **corrige-les toi-même** avant de rendre la main. Ne demande pas à l'utilisateur de le faire.
+
+## 3. Écriture du Code
+- **Pas de code paresseux :** Ne génère jamais de code avec des commentaires du type `// ... existing code ...` ou `// implémentation ici`. Fournis toujours le code complet de la fonction ou du bloc modifié.
+- Ne modifie **jamais** `database/types/__generated__/` (générés par `pnpm gen:types`).
+- Ne modifie **jamais** `pnpm-lock.yaml` manuellement.
+
+## 4. Communication et Clôture
+À la fin de chaque tâche :
+1. Explique brièvement **ce qui a été fait** et pourquoi.
+2. Signale explicitement **ce qui n'a PAS été fait** (hors périmètre, bug signalé, ambiguïté).
+3. Propose un message de commit prêt à copier-coller (dans un bloc de code bash) selon les conventions (`08-git-conventions`).
+
+## 5. Mise à jour des Cursor Rules
+À la fin de chaque tâche, **pour chacune des cursor rules effectivement utilisées** (consultées ou appliquées pendant la tâche) :
+- Évalue si la rule couvre bien le cas rencontré, ou s'il manque un exemple, une précision, une contrainte.
+- Si oui, **mets à jour la rule** directement : étoffe les exemples, corrige les imprécisions, ajoute les cas non couverts.
+- L'objectif est que les rules évoluent au fil du développement et restent le reflet fidèle des conventions réelles du projet.
+- Ne modifie une rule que si le contenu à ajouter est concret et directement issu de la tâche courante — pas de padding générique.
+
+## 6. Règles Git et Sécurité
+- **Lecture seule :** Tu ne dois **jamais** exécuter de commande git en écriture (`commit`, `push`, `merge`, etc.) ni utiliser la CLI `gh` pour modifier le dépôt. L'humain s'en charge. Voir aussi `08-git-conventions`.
+- Seules les commandes de **lecture** sont autorisées (`git status`, `git log`, `git diff`).
+- **Sécurité :** Ne jamais inclure `.env` ou les fichiers `__generated__/` dans une proposition de commit. Ne pas exposer de token dans les logs. Ne jamais utiliser `process.env` directement hors de `env.ts` et `cache/`.

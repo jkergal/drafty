@@ -1,0 +1,50 @@
+---
+description: discord.js v14 — collectors, channels, emojis, callbacks async
+globs:
+  - "bot/src/core/discord/**/*.ts"
+  - "bot/src/core/jobs/**/*.ts"
+alwaysApply: false
+---
+
+# Discord.js v14 Patterns
+
+## 1. Résolution des ressources (Pas de Hardcode)
+- **Ne jamais hardcoder d'IDs Discord** (Guild, Channel, Role, User).
+- Résolution via le cache et les variables d'environnement :
+  - Channels → `cache/get-channel.ts`
+  - Guild → `cache/get-guilds.ts`
+  - Emojis custom → `cache/get-emojis.ts`
+
+## 2. Collectors
+- Toujours configurer `dispose: true` pour écouter l'événement `remove`.
+- Toujours exclure le bot auteur dans le `filter`.
+```ts
+// ✅ Filter
+const filter = (reaction: MessageReaction, user: User) =>
+  [emojiName].includes(reaction.emoji.name) && user.id !== sentDiscordMessage.author.id;
+```
+- Toujours relancer le collector après un pod complet pour gérer l'overflow (reason `limit`).
+
+## 3. Callbacks Async
+- Discord.js n'accepte pas nativement de callbacks async pour les événements. Utiliser une IIFE avec try/catch.
+```ts
+collector.on('collect', (reaction, user) => {
+  (async () => {
+    try {
+      /* logique */
+    } catch (error) {
+      console.error(error);
+    }
+  })();
+});
+```
+
+## 4. Type Guards sur les Channels
+- Toujours vérifier le type du channel avant d'envoyer un message.
+```ts
+const isValidTextChannel = (channel: Channel | undefined): channel is TextChannel =>
+  channel !== undefined && channel.type === ChannelType.GuildText;
+```
+
+## 5. Timestamps Discord
+- Utiliser les helpers dédiés : `formatDiscordTimestamp` (`<t:unix:D>`) et `formatDiscordShortTimestamp` (`<t:unix:d>`).

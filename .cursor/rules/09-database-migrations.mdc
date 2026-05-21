@@ -1,0 +1,33 @@
+---
+description: Migrations Supabase — SQL, seed, types, contraintes métier
+globs:
+  - "database/supabase/**/*.sql"
+  - "database/supabase/config.toml"
+alwaysApply: false
+---
+
+# Migrations & schéma Supabase
+
+## 1. Règle Agent : Création de migrations
+- Ne modifie **jamais** une migration existante qui a déjà été mergée sur `main`.
+- Pour tout changement de schéma, crée un **nouveau** fichier de migration avec un timestamp descriptif (ex: `20260521120000_add_new_table.sql`).
+- Si tu modifies le schéma, rappelle à l'utilisateur de lancer `pnpm gen:types` localement.
+
+## 2. Règles SQL
+- Tester localement : `cd database && pnpm db:reset` (applique migrations + `seed.sql`).
+- Documenter les contraintes métier (`unique_player_per_pod`, `check_max_entries_per_pod`, …) dans le SQL + `AGENTS.md` §5 si comportement bot impacté.
+
+## 3. Types générés
+- L'agent **ne modifie pas** `database/types/__generated__/` à la main.
+- CI `database.yml` doit régénérer et auto-committer.
+
+## 4. Fonctions & contraintes Drafty
+- `check_max_entries_per_pod` : aujourd'hui plafond **8 en dur** — si la tâche touche `max_pod_entries`, traiter SQL + code + `AGENTS.md`.
+- Soft-delete partout où le bot « retire » une inscription — pas de `DELETE` métier sur `player_pod`.
+
+## 5. Seed
+- `seed.sql` pour `drafty_configurations` et données de dev — garder cohérent avec les templates `$TAG$` documentés dans `AGENTS.md` §7.
+- **Toute migration qui ajoute une colonne obligatoire (NOT NULL sans DEFAULT) à une table de configuration singleton doit être accompagnée de son seed** dans `database/supabase/seed.sql`.
+  - Utilise `INSERT ... ON CONFLICT (...) DO UPDATE SET colonne = EXCLUDED.colonne` pour mettre à jour la ligne singleton existante (ex : `drafty_configurations`).
+  - Les tables transactionnelles (`players`, `player_pod`, `pods`, `enrollment_messages`) ne nécessitent pas de seed — elles se peuplent via l'usage normal du bot en dev comme en prod.
+  - Ne jamais introduire de données réelles (tokens, IDs Discord de prod) dans `seed.sql`.
