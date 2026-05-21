@@ -1,3 +1,4 @@
 $MISC
 .env
 node_modules
+.cursor/mcp.json
