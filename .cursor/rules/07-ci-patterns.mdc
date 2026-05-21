@@ -12,7 +12,7 @@ alwaysApply: false
 - Vérifie si l'erreur provient du code (lint/test) ou de la configuration du workflow.
 
 ## 2. Structure du CI
-- `bot.yml` : lint + test + prettier + build (déclenché sur `bot/`).
+- `bot.yml` : lint + test + prettier + build. 3 jobs : `changes` (détection), `bot-ci` (CI lourd), `workflow` (check requis).
 - `database.yml` : génère les types + vérifie le build (déclenché sur `database/supabase/migrations/`).
 - Utilisation d'actions composites dans `.github/actions/` (`install-pnpm`, `install-dependencies`, `install-supabase`).
 
@@ -26,3 +26,51 @@ alwaysApply: false
 ```yaml
 if: ${{ github.event_name == 'push' || !github.event.pull_request.draft }}
 ```
+
+## 5. Pattern : required check toujours reportant (path filter + skip)
+
+**Problème :** Un check requis en branch protection (ex : `workflow`) bloque les PRs doc/infra si le workflow ne se déclenche pas (filtre `paths` non matché) → statut "Expected — Waiting to be reported" indéfini.
+
+**Solution :** Ne jamais mettre de filtre `paths` au niveau du déclencheur `on.pull_request`. Utiliser `dorny/paths-filter` dans un job `changes`, et un job wrapper `workflow` avec `if: always()` qui reporte toujours le statut final.
+
+```yaml
+on:
+  pull_request:  # pas de paths ici
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    outputs:
+      bot: ${{ steps.filter.outputs.bot }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            bot:
+              - 'bot/**'
+              - '.github/workflows/bot.yml'
+
+  bot-ci:
+    needs: changes
+    if: needs.changes.outputs.bot == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      # ... étapes CI lourdes ...
+
+  workflow:  # ← nom du check requis en branch protection
+    needs: [changes, bot-ci]
+    if: always() && github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report final CI status
+        run: |
+          if [[ "${{ needs.changes.result }}" == "failure" || "${{ needs.bot-ci.result }}" == "failure" || "${{ needs.bot-ci.result }}" == "cancelled" ]]; then
+            exit 1
+          fi
+          echo "CI passed or not required."
+```
+
+**Règle :** Le job portant le nom du check requis doit avoir `if: always()` (ou équivalent) pour ne jamais être skippé.
