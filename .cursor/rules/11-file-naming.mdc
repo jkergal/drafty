@@ -1,0 +1,35 @@
+---
+description: Conventions de nommage des fichiers et dossiers pour tout le monorepo Drafty
+alwaysApply: true
+---
+
+# Nommage des fichiers et dossiers
+
+## Règle générale
+Par défaut, tous les fichiers et dossiers utilisent le **kebab-case** (`mon-fichier.ts`, `mon-dossier/`).
+
+## Par type de fichier
+
+| Type | Convention | Exemples |
+|------|-----------|---------|
+| Fichiers TypeScript | `kebab-case.ts` | `get-channel.ts`, `format-discord-timestamp.ts` |
+| Fichiers de test | `nom-du-fichier.test.ts` | `format-discord-timestamp.test.ts` |
+| Fichiers de types | `nom.types.ts` ou `nom.d.ts` | `generic.types.ts`, `environment.d.ts` |
+| Index barrel | `_index.ts` | `commands/_index.ts` |
+| Index d'entrée | `index.ts` | `bot/src/index.ts` |
+| Migrations SQL | `YYYYMMDDHHMMSS_description_snake_case.sql` | `20250923095213_entries_collection.sql` |
+| Markdown documentaire | `lowercase-kebab.md` | `adr-template.md`, `setup-local.md` |
+| Markdown "méta" / entrée de dossier | `UPPERCASE.md` | `README.md`, `AGENTS.md`, `SKILL.md`, `CHANGELOG.md` |
+| ADR | `YYYY-MM-DD-titre-kebab.md` dans `docs/adr/` | `2026-05-21-checkin-message-depuis-db.md` |
+| Cursor rules | `NN-nom-kebab.mdc` | `01-typescript-strict.mdc`, `11-file-naming.mdc` |
+| Cursor skills | dossier `nom-kebab/` contenant `SKILL.md` | `notion-plan-ticket/SKILL.md` |
+| Variables d'environnement | fichiers : `.env`, `.env.example` | `bot/.env.example` |
+
+## Dossiers
+- Toujours en **kebab-case** : `entry-reactions-collector/`, `drafty-configurations/`
+- Les dossiers préfixés `_` signalent des utilitaires internes au module : `_helpers/`
+
+## Ce qu'il ne faut jamais faire
+- `camelCase` ou `PascalCase` pour les noms de fichiers (réservé aux classes et types dans le code)
+- Espaces ou caractères spéciaux dans les noms de fichiers
+- Abréviations obscures : préférer `format-enrollment-message.ts` à `fmt-enroll-msg.ts`

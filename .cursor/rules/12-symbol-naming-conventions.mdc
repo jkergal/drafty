@@ -1,0 +1,43 @@
+---
+description: Conventions de nommage des symboles TypeScript — variables, fonctions, types, constantes, colonnes DB
+alwaysApply: true
+---
+
+# Conventions de nommage des symboles
+
+## Tableau de référence rapide
+
+| Symbole | Convention | Exemples |
+|---------|-----------|---------|
+| Variables, paramètres | `camelCase` | `podId`, `enrollmentMessage`, `maxEntries` |
+| Fonctions | `camelCase` + verbe d'action | `getPodById`, `createEnrollmentMessage`, `formatDiscordTimestamp` |
+| Booleans | `camelCase` + préfixe sémantique | `isDevEnv`, `hasReacted`, `shouldAutoReact`, `canCreatePod` |
+| Types et interfaces | `PascalCase` | `PodParams`, `DraftyConfig`, `PodDay` |
+| Constantes globales | `UPPER_SNAKE_CASE` | `POD_DAYS`, `ASYNC_EMOJI`, `MAX_POD_ENTRIES` |
+| Variables d'environnement | `UPPER_SNAKE_CASE` | `DISCORD_BOT_TOKEN`, `ANON_KEY`, `GUILD_ID` |
+| Colonnes et tables DB | `snake_case` (Supabase/Postgres natif) | `enrollment_message_id`, `deleted_at`, `player_pod` |
+| Alias camelCase de retour DB | `camelCase` (via `objectToCamel`) | `enrollmentMessageId`, `deletedAt` |
+
+## Verbes d'action pour les fonctions
+
+Utiliser systématiquement un verbe en préfixe. La liste ci-dessous recense les verbes déjà en usage dans ce projet — elle n'est **pas exhaustive**. D'autres verbes peuvent être utilisés selon les bonnes pratiques clean code générales, et les verbes listés ne sont pas limités aux usages indiqués.
+
+| Verbe | Usage courant dans ce projet |
+|-------|------------------------------|
+| `get` | Lecture, récupération (sync ou async) |
+| `create` | Insertion en DB ou création d'objet |
+| `add` | Ajout à une collection ou relation |
+| `delete` / `remove` | Suppression (hard ou soft) |
+| `send` | Envoi de message Discord |
+| `format` | Transformation de données en string |
+| `hydrate` | Substitution de placeholders dans un template |
+| `convert` | Transformation de type (ex: ms → jours) |
+| `init` | Initialisation d'un composant Discord |
+| `open` | Ouverture d'un listener ou collecteur |
+
+## Règles complémentaires
+
+- **Pas de typo** dans les noms — un agent doit corriger les fautes sans attendre.
+- **Pas d'abréviations obscures** : `enrollmentMessage` plutôt que `enrlMsg`.
+- **Pas d'`enum`** — utiliser des `const` objects avec `as const` (voir `01-typescript-strict`).
+- **Nommage de fichiers** : voir `11-file-naming` (rule dédiée).
