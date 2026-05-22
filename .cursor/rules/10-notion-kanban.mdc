@@ -1,0 +1,63 @@
+---
+description: Notion Kanban — contexte de la base de tickets Drafty et conventions d'usage pour les agents
+alwaysApply: true
+---
+
+# Notion Kanban — Drafty
+
+Le projet Drafty dispose d'un Kanban Notion géré via le MCP `notion` (configuré dans `.cursor/mcp.json`).
+
+## Base de données
+
+- **ID** : `11003dafa7b84477b09dca70efa784d2`
+- **Nom** : Drafty Kanban
+
+## Propriétés de la base
+
+| Propriété | Type | Notes |
+|-----------|------|-------|
+| `Name` | title | Titre du ticket |
+| `Status` | select | `Drafts` / `Backlog` / `Sprint Backlog` / `Doing` / `Reviewing` / `Done` / `Archived` |
+| `Tags` | multi-select | `Front-end` / `Back-end` / `Figma` / `Setup` / `Thinking` / `Devops` / `Cron` / `Database` / `Message` / `Test` / `Refacto` / `Architecture` / `Bot` |
+| `Assign` | person | Toujours `Johann Kergal` — à renseigner systématiquement |
+| `Complexity` | number | Suite de Fibonacci : `1` / `2` / `3` / `5` / `8` / `13` / `21` |
+| `Description` | text | Description libre du ticket (optionnel) |
+
+## Quand utiliser le Kanban
+
+- **En fin de tâche** : si un ticket correspondant existe, passe son statut en `Done`.
+- **Sur demande explicite** : créer un ticket, modifier un statut, lister les tickets d'un statut donné.
+- **Ne pas interagir avec Notion** si aucun ID de ticket ni instruction explicite n'est fourni.
+
+## Conventions de tickets
+
+- Tous les tickets (titre, description) sont rédigés **en français**.
+- Le titre commence par une balise `[SCOPE]` suivie d'un titre **concis et limpide** décrivant l'objectif métier.
+
+**Format :** `[SCOPE] Titre du ticket`
+
+**Scopes disponibles :**
+
+| Balise | Usage |
+|--------|-------|
+| `[BOT]` | Logique du bot Discord (listeners, collectors, actions) |
+| `[DB]` | Schéma, migrations, requêtes Supabase |
+| `[CHECKIN]` | Fonctionnalité de check-in et confirmation de présence |
+| `[ENROLLMENT]` | Message d'inscriptions hebdomadaire et gestion des pods |
+| `[CI]` | Pipelines GitHub Actions, build, lint, test automatisés |
+| `[SETUP]` | Configuration locale, Docker, outillage développeur |
+| `[TEST]` | Ajout ou correction de tests |
+| `[REFACTO]` | Refactoring sans changement de comportement |
+| `[AI]` | Outillage et contexte pour le développement agentique |
+
+**Exemples de bons titres :**
+- `[CHECKIN] Taguer les joueurs dans le message de check-in`
+- `[ENROLLMENT] Récupérer le contenu du message depuis la base de données`
+- `[BOT] Corriger le nom de l'emoji du vendredi`
+- `[TEST] Ajouter des tests d'intégration sur le repository enrollment`
+- `[SETUP] Mise en place du Docker Compose pour le dev local`
+- `[DB] Rendre la contrainte max_pod_entries dynamique`
+
+**Exemples de mauvais titres (à éviter) :**
+- `feat(checkin): add player tagging in check-in message` ← format commit, en anglais, sans balise
+- `Fix friday emoji` ← trop court, en anglais, sans balise

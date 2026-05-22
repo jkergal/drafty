@@ -61,7 +61,5 @@ try {
 ```
 
 ## 5. Conventions de nommage
-- Fichiers : `kebab-case.ts`
-- Fonctions : `camelCase` avec verbe d'action
-- Types/interfaces : `PascalCase`
-- Constantes globales : `UPPER_SNAKE_CASE`
+- Fichiers et dossiers : voir `11-file-naming` (rule dédiée)
+- Symboles (variables, fonctions, types, constantes) : voir `12-symbol-naming-conventions` (rule dédiée)

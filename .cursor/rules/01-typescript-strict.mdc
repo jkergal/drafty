@@ -45,6 +45,4 @@ channel.send('pod1 OK').catch((err: unknown) => console.error('Check-in send fai
 ```
 
 ## 6. Nommage
-- Pas de typo dans les noms de fonctions.
-- Booleens : préfixes `is`, `has`, `should`, `can`.
-- Fonctions : verbes d'action (`get`, `create`, `add`, `delete`, `send`, `hydrate`, `format`), ou ce qui est estimé comme pertinent selon le besoin et les bonnes pratiques clean code.
+Voir `12-symbol-naming-conventions` (rule dédiée).
